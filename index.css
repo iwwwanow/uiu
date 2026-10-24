@@ -1,8 +1,8 @@
 /* =====================================================
-   iwwwanow / uiu  v0.2.0
+   iwwwanow / uiu  v__VERSION__
    owo.css          — owo styles copied 1:1 (scripts/sync-owo.sh),
                       plus a marked "deviations" block at the end
    ai-generated.css — AI-generated components on top of owo
    ===================================================== */
-@import url("owo.css?v=0.2.0");
-@import url("ai-generated.css?v=0.2.0");
+@import url("owo.css?v=__VERSION__");
+@import url("ai-generated.css?v=__VERSION__");
