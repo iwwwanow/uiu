@@ -10,3 +10,5 @@
 - Если всё-таки скучно-описательное: `html-studio`, `kit-editor`.
 
 При переименовании поменяется: URL GitHub Pages (`iwwwanow.github.io/ui-kit/`), `name` в `package.json`, README и og-мета, локальная папка `iwwwanow_ui-kit` (и привязанная к пути память Claude).
+
+**Решение (2026-10-24):** `uiu`. Репозиторий переименован, Pages переехал на `iwwwanow.github.io/uiu/`.

@@ -1,8 +1,8 @@
-# iwwwanow / ui-kit
+# iwwwanow / uiu
 
 The design language of [owo](https://github.com/iwwwanow/owo) (the engine behind [iwwwanow.ru](https://iwwwanow.ru)) as a drop-in stylesheet, plus a set of AI-generated components built on top of it.
 
-**Preview →** https://iwwwanow.github.io/ui-kit/ · [ai-generated](https://iwwwanow.github.io/ui-kit/ai-generated.html)
+**Preview →** https://iwwwanow.github.io/uiu/ · [ai-generated](https://iwwwanow.github.io/uiu/ai-generated.html)
 
 ## Files
 
