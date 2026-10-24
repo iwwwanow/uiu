@@ -1,1246 +1,449 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#ff115c">
-  <title>UI Kit — iwwwanow</title>
-  <meta name="description" content="Minimal component library based on owo. Light theme, sharp corners, Roboto Condensed. Drop in kit.css.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e0e0e0" />
 
-  <!-- Open Graph -->
-  <meta property="og:type"        content="website">
-  <meta property="og:title"       content="UI Kit — iwwwanow">
-  <meta property="og:description" content="Minimal component library based on owo. Light theme, sharp corners, Roboto Condensed.">
-  <meta property="og:url"         content="https://iwwwanow.github.io/ui-kit/">
-  <meta property="og:image"        content="https://iwwwanow.github.io/ui-kit/og.png">
-  <meta property="og:image:type"   content="image/png">
-  <meta property="og:image:width"  content="1200">
-  <meta property="og:image:height" content="630">
+  <title>owo — iwwwanow / ui-kit</title>
+  <meta name="description" content="owo styles copied 1:1: tokens, typography, grid, hr, borders, media card. The design language of iwwwanow.ru." />
 
-  <!-- Twitter / X -->
-  <meta name="twitter:card"        content="summary_large_image">
-  <meta name="twitter:title"       content="UI Kit — iwwwanow">
-  <meta name="twitter:description" content="Minimal component library based on owo. Light theme, sharp corners, Roboto Condensed.">
-  <meta name="twitter:image"       content="https://iwwwanow.github.io/ui-kit/og.png">
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="owo — iwwwanow / ui-kit" />
+  <meta property="og:description" content="owo styles copied 1:1: tokens, typography, grid, hr, borders, media card." />
+  <meta property="og:url" content="https://iwwwanow.github.io/ui-kit/" />
+  <meta property="og:image" content="https://iwwwanow.github.io/ui-kit/og.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://iwwwanow.github.io/ui-kit/og.png" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="icon" type="image/x-icon"  href="favicon.svg"><!-- fallback same file -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+  <link rel="stylesheet" href="owo.css?v=0.2.0" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,700&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="kit.css?v=0.1.0">
+  <!-- page-level styles, the way owo pages do it in .meta/index.css -->
   <style>
-    /* ── Showcase layout ── */
-    :root {
-      --HDR-H: 44px;
-      --SB-W:  206px; /* one owo column + gap */
-    }
+    .swatch_white  { background-color: var(--WHITE); }
+    .swatch_light  { background-color: var(--LIGHT); }
+    .swatch_medium { background-color: var(--MEDIUM); }
+    .swatch_dark   { background-color: var(--DARK); }
+    .swatch_black  { background-color: var(--BLACK); }
+    .swatch_red    { background-color: var(--RED); }
+    .swatch_green  { background-color: var(--GREEN); }
+    .swatch_blue   { background-color: var(--BLUE); }
+    .swatch_blue-dark { background-color: var(--BLUE-DARK); }
+    .swatch_orange { background-color: var(--ORANGE); }
+    .swatch_js     { background-color: var(--js); }
+    .swatch_css    { background-color: var(--css); }
+    .swatch_on-dark .card__text-container { color: var(--WHITE); }
 
-    /* Header */
-    .hdr {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: var(--HDR-H);
-      background: var(--WHITE);
-      border-bottom: 1px solid var(--LIGHT);
-      display: flex;
-      align-items: center;
-      padding: 0 var(--GRID-GAP);
-      z-index: 10;
-      gap: 8px;
-    }
-    .hdr-logo {
-      font-size: 1.4rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--BLACK);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .hdr-logo em { font-style: normal; color: var(--RED); }
-    .hdr-sep { color: var(--LIGHT); }
-    .hdr-sub { font-size: 1.4rem; color: var(--MEDIUM); text-transform: uppercase; letter-spacing: 0.06em; }
-    .hdr-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-    .hdr-link {
-      font-size: 1.3rem;
-      color: var(--MEDIUM);
-      border-width: 1px;
-      border-style: solid;
-      border-color: var(--LIGHT);
-      padding: 4px 10px;
-      transition: border-color 0.1s, color 0.1s;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      text-decoration: none;
-    }
-    .hdr-link:hover { border-color: var(--DARK); color: var(--DARK); text-decoration: none; }
+    .box { padding: 6px 8px; }
 
-    /* Page layout */
-    body { padding-top: var(--HDR-H); }
-
-    .layout {
-      display: flex;
-      min-height: calc(100vh - var(--HDR-H));
-    }
-
-    /* Sidebar */
-    .sb {
-      position: fixed;
-      top: var(--HDR-H);
-      left: 0;
-      bottom: 0;
-      width: var(--SB-W);
-      background: var(--WHITE);
-      border-right: 1px solid var(--LIGHT);
-      overflow-y: auto;
-      padding: 16px 0 32px;
-      z-index: 9;
-    }
-    .sb-group { margin-bottom: 20px; }
-    .sb-group-label {
-      padding: 0 var(--GRID-GAP) 6px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--MEDIUM);
-    }
-    .sb-link {
-      display: block;
-      padding: 6px var(--GRID-GAP);
-      font-size: 1.4rem;
-      color: var(--MEDIUM);
-      transition: color 0.1s, background 0.1s;
-      border-left: 2px solid transparent;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .sb-link:hover { color: var(--DARK); text-decoration: none; }
-    .sb-link.active { color: var(--BLACK); border-left-color: var(--RED); background: var(--LIGHT); }
-
-    /* Main */
-    .main {
-      margin-left: var(--SB-W);
-      flex: 1;
-      min-width: 0;
-    }
-    .main-inner {
-      max-width: calc(190px * 5 + var(--GRID-GAP) * 5);
-      padding: 32px var(--GRID-GAP) 96px calc(var(--GRID-GAP) * 2);
-    }
-
-    /* Section */
-    .sc { margin-bottom: 64px; scroll-margin-top: calc(var(--HDR-H) + 16px); }
-    .sc-title { font-size: 2.8em; font-style: italic; font-weight: 700; line-height: 84%; letter-spacing: -0.056rem; margin-bottom: 1.2rem; color: var(--BLACK); }
-    .sc-desc  { font-size: 1.6rem; color: var(--MEDIUM); margin-bottom: 24px; line-height: 2.4rem; }
-
-    /* Demo box */
-    .demo {
-      border-width: 1px;
-      border-style: solid;
-      border-color: var(--LIGHT);
-      padding: 24px;
-      margin-bottom: 0;
-      background: var(--WHITE);
-    }
-    .demo-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-    .demo-row:last-child { margin-bottom: 0; }
-    .demo-col { display: flex; flex-direction: column; gap: 10px; }
-    .demo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--GRID-GAP); }
-
-    /* Snippet */
-    .snip {
-      background: var(--LIGHT);
-      border-width: 0 1px 1px;
-      border-style: solid;
-      border-color: var(--LIGHT);
-      padding: 12px 14px;
-      font-family: "Roboto Mono", monospace;
-      font-size: 1.3rem;
-      color: var(--DARK);
-      line-height: 1.8;
-      overflow-x: auto;
-      white-space: pre;
-    }
-    .snip .kw { color: var(--RED); }
-    .snip .at { color: var(--BLUE); }
-    .snip .vl { color: var(--GREEN); }  /* note: visible on light bg since --GREEN is vivid */
-    .snip .tg { color: var(--DARK); font-weight: 700; }
-    /* override green to darker shade for readability on light */
-    .snip .vl { color: #007a4a; }
-
-    /* Color chips */
-    .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
-    .color-chip { border-width: 1px; border-style: solid; border-color: var(--LIGHT); }
-    .color-swatch { height: 56px; }
-    .color-info { padding: 6px 8px; background: var(--WHITE); }
-    .color-name { font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--DARK); }
-    .color-val  { font-size: 1.1rem; font-family: "Roboto Mono", monospace; color: var(--MEDIUM); }
-
-    /* Typography preview */
-    .typo-row { display: flex; flex-direction: column; gap: 24px; }
-    .typo-item { display: flex; align-items: flex-start; gap: var(--GRID-GAP); padding-bottom: 24px; border-bottom: 1px solid var(--LIGHT); }
-    .typo-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .typo-lbl  { font-size: 1.1rem; font-family: "Roboto Mono", monospace; color: var(--MEDIUM); min-width: 64px; flex-shrink: 0; padding-top: 2px; }
-
-    /* Range demo */
-    .range-row { display: flex; align-items: center; gap: var(--GRID-GAP); }
-    .range-val { font-family: "Roboto Mono", monospace; font-size: 1.4rem; color: var(--RED); min-width: 32px; text-align: right; }
-
-    /* Hero */
-    .hero {
-      padding: 32px 0 48px;
-      border-bottom: 1px solid var(--LIGHT);
-      margin-bottom: 64px;
-    }
-    .hero-eyebrow {
-      font-size: 1.2rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--RED);
-      margin-bottom: 8px;
-    }
-    .hero-title {
-      font-size: 6.4em;
-      font-weight: 700;
-      font-style: italic;
-      line-height: 75%;
-      letter-spacing: -0.256rem;
-      margin-bottom: 2.4rem;
-      color: var(--BLACK);
-    }
-    .hero-sub {
-      font-size: 1.6em;
-      color: var(--MEDIUM);
-      max-width: 560px;
-      line-height: 2.4rem;
-      margin-bottom: 32px;
-    }
-    .hero-meta { display: flex; gap: 32px; flex-wrap: wrap; border-top: 1px solid var(--LIGHT); padding-top: 16px; }
-    .hero-meta-lbl { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--MEDIUM); margin-bottom: 2px; }
-    .hero-meta-val { font-size: 1.4rem; font-family: "Roboto Mono", monospace; color: var(--DARK); }
-
-    /* Section separator */
-    .sc-sep { border: none; border-top: 1px solid var(--LIGHT); margin: 0 0 64px; }
-
+    /* owo has no responsive rules for card--span-*; pages add them in .meta */
     @media screen and (max-width: 858px) {
-      .sb { display: none; }
-      .main { margin-left: 0; }
-      .main-inner { padding: 24px var(--GRID-GAP) 80px; }
+      .card--span-4 { grid-column: span 3; }
     }
-
-    /* owo / extended markers */
-    .sb-group-label--owo { color: var(--RED); }
-    .sc-origin {
-      display: inline-block;
-      font-size: 1.1rem;
-      font-weight: 700;
-      font-style: normal;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--RED);
-      border: 1px solid var(--RED);
-      padding: 2px 6px;
-      line-height: 1;
-      margin-left: 10px;
-      vertical-align: middle;
-      position: relative;
-      top: -4px;
+    @media screen and (max-width: 650px) {
+      .card--span-2, .card--span-4 { grid-column: span 2; }
+    }
+    @media screen and (max-width: 360px) {
+      .card--span-2, .card--span-4 { grid-column: span 1; }
     }
   </style>
 </head>
+
 <body>
+  <div class="wrapper">
 
-<!-- ══ Header ══ -->
-<header class="hdr">
-  <div class="hdr-logo">
-    <em>iwwwanow</em>
-    <span class="hdr-sep">/</span>
-    <span class="hdr-sub">ui-kit</span>
-  </div>
-  <div class="hdr-right">
-    <span class="badge badge-default">v0.1.0</span>
-    <a class="hdr-link" href="https://github.com/iwwwanow" target="_blank" rel="noopener">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.37.6.11.82-.26.82-.58v-2.04c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02 0 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.25 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
-      GitHub
-    </a>
-  </div>
-</header>
+    <header class="grid header">
+      <a href="./"><h5>iwwwanow / ui-kit</h5></a>
+      <h5>owo</h5>
+      <a href="ai-generated.html"><h5>ai-generated</h5></a>
+      <a href="https://github.com/iwwwanow/ui-kit"><h5>github</h5></a>
+    </header>
 
-<!-- ══ Sidebar ══ -->
-<nav class="sb" id="sb">
-  <div class="sb-group">
-    <div class="sb-group-label sb-group-label--owo">owo</div>
-    <a class="sb-link" data-t="intro">Introduction</a>
-    <a class="sb-link" data-t="colors">Colors</a>
-    <a class="sb-link" data-t="typography">Typography</a>
-    <a class="sb-link" data-t="grid">Grid</a>
-    <a class="sb-link" data-t="border">Borders</a>
-    <a class="sb-link" data-t="card-media">Card — media</a>
-    <a class="sb-link" data-t="divider">Divider label</a>
-  </div>
-  <div class="sb-group">
-    <div class="sb-group-label">extended</div>
-    <a class="sb-link" data-t="buttons">Buttons</a>
-    <a class="sb-link" data-t="inputs">Inputs</a>
-    <a class="sb-link" data-t="textarea">Textarea</a>
-    <a class="sb-link" data-t="select">Select</a>
-    <a class="sb-link" data-t="checkbox">Checkbox &amp; Radio</a>
-    <a class="sb-link" data-t="toggle">Toggle</a>
-    <a class="sb-link" data-t="card-ui">Card — UI</a>
-    <a class="sb-link" data-t="badges">Badges</a>
-    <a class="sb-link" data-t="tags">Tags</a>
-    <a class="sb-link" data-t="alerts">Alerts</a>
-    <a class="sb-link" data-t="progress">Progress</a>
-    <a class="sb-link" data-t="range">Range</a>
-    <a class="sb-link" data-t="tables">Tables</a>
-    <a class="sb-link" data-t="tabs">Tabs</a>
-    <a class="sb-link" data-t="avatars">Avatars</a>
-    <a class="sb-link" data-t="toast">Toast</a>
-    <a class="sb-link" data-t="breadcrumbs">Breadcrumbs</a>
-    <a class="sb-link" data-t="misc">Tooltips</a>
-    <a class="sb-link" data-t="kbd">Kbd</a>
-    <a class="sb-link" data-t="spinner">Spinner</a>
-  </div>
-</nav>
-
-<!-- ══ Main ══ -->
-<main class="main">
-<div class="main-inner">
-
-<!-- Hero -->
-<section id="intro" class="hero">
-  <p class="hero-eyebrow">Design System</p>
-  <h1 class="hero-title">UI Kit</h1>
-  <p class="hero-sub">Component library based on <a href="https://github.com/iwwwanow/owo">owo</a>. Light theme, sharp corners, Roboto Condensed. Drop in <code>kit.css</code>.</p>
-  <div class="hero-meta">
-    <div><div class="hero-meta-lbl">Font</div><div class="hero-meta-val">Roboto Condensed</div></div>
-    <div><div class="hero-meta-lbl">Accent</div><div class="hero-meta-val" style="color:var(--RED)">#ff115c</div></div>
-    <div><div class="hero-meta-lbl">Base</div><div class="hero-meta-val">Light</div></div>
-    <div><div class="hero-meta-lbl">Radius</div><div class="hero-meta-val">0</div></div>
-    <div><div class="hero-meta-lbl">Version</div><div class="hero-meta-val">0.1.0</div></div>
-  </div>
-</section>
-
-<!-- Colors -->
-<section id="colors" class="sc">
-  <h2 class="sc-title">Colors <span class="sc-origin">owo</span></h2>
-  <p class="sc-desc">owo color tokens. Use via CSS variables.</p>
-  <div class="demo">
-    <div style="font-size:1.1rem;text-transform:uppercase;letter-spacing:.08em;color:var(--MEDIUM);margin-bottom:12px">Base palette</div>
-    <div class="color-grid" style="margin-bottom:20px">
-      <div class="color-chip"><div class="color-swatch" style="background:#fff;border-bottom:1px solid #e0e0e0"></div><div class="color-info"><div class="color-name">WHITE</div><div class="color-val">#fff</div></div></div>
-      <div class="color-chip"><div class="color-swatch" style="background:#e0e0e0"></div><div class="color-info"><div class="color-name">LIGHT</div><div class="color-val">#e0e0e0</div></div></div>
-      <div class="color-chip"><div class="color-swatch" style="background:#a4a4a4"></div><div class="color-info"><div class="color-name">MEDIUM</div><div class="color-val">#a4a4a4</div></div></div>
-      <div class="color-chip"><div class="color-swatch" style="background:#535353"></div><div class="color-info"><div class="color-name">DARK</div><div class="color-val">#535353</div></div></div>
-      <div class="color-chip"><div class="color-swatch" style="background:#000"></div><div class="color-info"><div class="color-name">BLACK</div><div class="color-val">#000</div></div></div>
+    <div class="grid">
+      <div class="grid__left-content">
+        <h1>owo</h1>
+      </div>
+      <div class="grid__right-content">
+        <p>
+          Styles of <a href="https://github.com/iwwwanow/owo">owo</a> — the engine behind
+          <a href="https://iwwwanow.ru">iwwwanow.ru</a> — copied 1:1. Nothing here is
+          re-styled: this page itself is built only from owo classes and tags.
+        </p>
+        <p>
+          The few places where the kit differs from owo are collected in one block at the
+          end of owo.css, each with a link to the matching note in owo's backlog.
+        </p>
+        <p>
+          Components generated on top of owo live on a separate page:
+          <a href="ai-generated.html">ai-generated</a>.
+        </p>
+        <pre><code>&lt;link rel="stylesheet" href="owo.css" /&gt;</code></pre>
+      </div>
     </div>
-    <div style="font-size:1.1rem;text-transform:uppercase;letter-spacing:.08em;color:var(--MEDIUM);margin-bottom:12px">Accent</div>
-    <div class="color-grid">
-      <div class="color-chip"><div class="color-swatch" style="background:#ff115c"></div><div class="color-info"><div class="color-name">RED</div><div class="color-val">#ff115c</div></div></div>
-      <div class="color-chip"><div class="color-swatch" style="background:#00ff9b"></div><div class="color-info"><div class="color-name">GREEN</div><div class="color-val">#00ff9b</div></div></div>
-      <div class="color-chip"><div class="color-swatch" style="background:#009bff"></div><div class="color-info"><div class="color-name">BLUE</div><div class="color-val">#009bff</div></div></div>
-      <div class="color-chip"><div class="color-swatch" style="background:#0040ff"></div><div class="color-info"><div class="color-name">BLUE-DARK</div><div class="color-val">#0040ff</div></div></div>
-      <div class="color-chip"><div class="color-swatch" style="background:#ff9b00"></div><div class="color-info"><div class="color-name">ORANGE</div><div class="color-val">#ff9b00</div></div></div>
-    </div>
-  </div>
-</section>
 
-<!-- Typography -->
-<section id="typography" class="sc">
-  <h2 class="sc-title">Typography <span class="sc-origin">owo</span></h2>
-  <p class="sc-desc">Roboto Condensed. Base <code>font-size: 62.5%</code> on html — 1rem = 10px.</p>
-  <div class="demo">
-    <div class="typo-row">
-      <div class="typo-item"><span class="typo-lbl">h1</span><h1 style="font-size:4.8em">Heading One</h1></div>
-      <div class="typo-item"><span class="typo-lbl">h2</span><h2>Heading Two</h2></div>
-      <div class="typo-item"><span class="typo-lbl">h3</span><h3>Heading Three</h3></div>
-      <div class="typo-item"><span class="typo-lbl">h4</span><h4>Heading Four — bold</h4></div>
-      <div class="typo-item"><span class="typo-lbl">h5</span><h5>Heading Five — regular</h5></div>
-      <div class="typo-item"><span class="typo-lbl">h6</span><h6>Heading Six — light italic</h6></div>
-      <div class="typo-item"><span class="typo-lbl">p</span><p>Regular paragraph. The quick brown fox jumps over the lazy dog.</p></div>
-      <div class="typo-item"><span class="typo-lbl">a</span><a href="#">Link — BLUE, underline on hover</a></div>
-      <div class="typo-item"><span class="typo-lbl">code</span><p>Use <code>git commit -m "msg"</code> then push. Inline code matches parent size.</p></div>
-      <div class="typo-item">
-        <span class="typo-lbl">pre</span>
-        <pre style="flex:1">function render(el) {
+    <nav class="grid">
+      <fieldset class="hr_fieldset"><legend><h6>contents</h6></legend></fieldset>
+      <a href="#colors"><h5>colors</h5></a>
+      <a href="#typography"><h5>typography</h5></a>
+      <a href="#layout"><h5>layout</h5></a>
+      <a href="#hr"><h5>hr</h5></a>
+      <a href="#border"><h5>border</h5></a>
+      <a href="#card"><h5>card</h5></a>
+      <a href="#hidden"><h5>hidden</h5></a>
+      <a href="#fragments"><h5>header / footer</h5></a>
+      <a href="#base"><h5>reset / base</h5></a>
+    </nav>
+
+    <!-- ══ colors ══ -->
+    <div id="colors" class="grid grid--hidden">
+      <fieldset class="hr_fieldset"><legend><h6>colors</h6></legend></fieldset>
+
+      <div class="card__wrapper border swatch_white"><div class="card__text-container"><h4 class="card__text-header">WHITE</h4><h6>#fff</h6></div></div>
+      <div class="card__wrapper border swatch_light"><div class="card__text-container"><h4 class="card__text-header">LIGHT</h4><h6>#e0e0e0</h6></div></div>
+      <div class="card__wrapper border swatch_medium"><div class="card__text-container"><h4 class="card__text-header">MEDIUM</h4><h6>#a4a4a4</h6></div></div>
+      <div class="card__wrapper border swatch_dark swatch_on-dark"><div class="card__text-container"><h4 class="card__text-header">DARK</h4><h6>#535353</h6></div></div>
+      <div class="card__wrapper border swatch_black swatch_on-dark"><div class="card__text-container"><h4 class="card__text-header">BLACK</h4><h6>#000</h6></div></div>
+      <div class="card__wrapper border swatch_js"><div class="card__text-container"><h4 class="card__text-header">js</h4><h6>#f0db4f</h6></div></div>
+      <div class="card__wrapper border swatch_css swatch_on-dark"><div class="card__text-container"><h4 class="card__text-header">css</h4><h6>#2965f1</h6></div></div>
+
+      <div class="card__wrapper border swatch_red swatch_on-dark"><div class="card__text-container"><h4 class="card__text-header">RED</h4><h6>#f00</h6></div></div>
+      <div class="card__wrapper border swatch_green"><div class="card__text-container"><h4 class="card__text-header">GREEN</h4><h6>#00ff9b</h6></div></div>
+      <div class="card__wrapper border swatch_blue swatch_on-dark"><div class="card__text-container"><h4 class="card__text-header">BLUE</h4><h6>#009bff</h6></div></div>
+      <div class="card__wrapper border swatch_blue-dark swatch_on-dark"><div class="card__text-container"><h4 class="card__text-header">BLUE-DARK</h4><h6>#0040ff</h6></div></div>
+      <div class="card__wrapper border swatch_orange"><div class="card__text-container"><h4 class="card__text-header">ORANGE</h4><h6>#ff9b00</h6></div></div>
+
+      <div class="grid__left-content">
+        <p>
+          All tokens are custom properties on :root. Body colour is not set — text is
+          browser black; LIGHT is borders and pre, MEDIUM is labels, BLUE is links and
+          text selection.
+        </p>
+      </div>
+      <div class="grid__right-content">
+        <pre><code>:root {
+  --WHITE: #fff;     --LIGHT: #e0e0e0;  --MEDIUM: #a4a4a4;
+  --DARK: #535353;   --BLACK: #000;
+
+  --RED: #f00;       --GREEN: #00ff9b;  --BLUE: #009bff;
+  --BLUE-DARK: #0040ff;                 --ORANGE: #ff9b00;
+  --js: #f0db4f;     --css: #2965f1;
+
+  --GRID-GAP: 16px;
+  --2-GRID-GAP: 32px;  --GRID-GAP-2: 8px;
+  --GRID-GAP-4: 4px;   --GRID-GAP-8: 2px;
+  --SEPARATOR-COLUMN: 4;
+
+  --CARD-HEIGHT: 288px;
+  --Z-INDEX-SECOND-LEVEL: 2;
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- ══ typography ══ -->
+    <div id="typography" class="grid">
+      <fieldset class="hr_fieldset"><legend><h6>typography</h6></legend></fieldset>
+
+      <div class="grid__left-content">
+        <p>
+          One typeface for everything: Roboto Condensed 400, 700, italic 300 and italic 700,
+          set on * with "Helvetica Neue Condensed" as fallback. owo also imports regular
+          Roboto, but no rule uses it. Root font-size is 62.5%, so 1rem = 10px and tags size
+          themselves in em off the root. Below 444px the root grows to 72% and h1 / h2
+          shrink.
+        </p>
+      </div>
+
+      <h6 class="grid__left-content">h1 — 6.4em · italic 700 · line-height 75%</h6>
+      <div class="grid__right-content"><h1>Heading one</h1></div>
+
+      <h6 class="grid__left-content">h2 — 2.8em · italic 700 · line-height 84%</h6>
+      <div class="grid__right-content"><h2>Heading two</h2></div>
+
+      <h6 class="grid__left-content">h3 — 1.8em · 700 · line-height 84%</h6>
+      <div class="grid__right-content"><h3>Heading three</h3></div>
+
+      <h6 class="grid__left-content">h4 — 1.4em · 700 · card titles</h6>
+      <div class="grid__right-content"><h4>Heading four</h4></div>
+
+      <h6 class="grid__left-content">h5 — 1.4em · 400 · header, footer</h6>
+      <div class="grid__right-content"><h5>Heading five</h5></div>
+
+      <h6 class="grid__left-content">h6 — 1.4em · italic 300 · labels, badges</h6>
+      <div class="grid__right-content"><h6>Heading six</h6></div>
+
+      <h6 class="grid__left-content">p — 1.6em · 400 · line-height 2.4rem</h6>
+      <div class="grid__right-content">
+        <p>Художник. Цифровая живопись, цифровой коллаж, цифровая фотография, традиционная живопись и рисунок. Код.</p>
+        <p>The quick brown fox jumps over the lazy dog.</p>
+      </div>
+
+      <h6 class="grid__left-content">a — BLUE · underline on hover</h6>
+      <div class="grid__right-content"><p><a href="#typography">telegram</a></p></div>
+
+      <h6 class="grid__left-content">pre / code — LIGHT background · "Roboto Mono", monospace</h6>
+      <div class="grid__right-content">
+        <pre><code>function render(el) {
   return el.outerHTML;
-}</pre>
+}</code></pre>
+        <p>Inline: run <code>scripts/sync-owo.sh</code> after owo changes.</p>
+        <p>
+          Roboto Mono is not loaded by owo, so code falls back to the system monospace.
+        </p>
+        <p>
+          Differs from owo: there code is 1.6em, which compounds inside a p (25.6px).
+          Here pre is 1.6rem and code is 1em. See owo
+          docs/backlog/2026-10-24_code-font-size-compounds.md.
+        </p>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- Grid -->
-<section id="grid" class="sc">
-  <h2 class="sc-title">Grid <span class="sc-origin">owo</span></h2>
-  <p class="sc-desc">8 columns × 190px, 16px gap. Responsive breakpoints match owo exactly.</p>
-  <div class="demo">
-    <div style="font-size:1.3rem;color:var(--MEDIUM);margin-bottom:16px;font-family:'Roboto Mono',monospace">
-      1680px → 6 col &nbsp;·&nbsp; 1268px → 4 col &nbsp;·&nbsp; 858px → 3 col &nbsp;·&nbsp; 650px → 2 col &nbsp;·&nbsp; 444px → 2×1fr &nbsp;·&nbsp; 360px → 1 col
-    </div>
-    <!-- mini grid demo -->
-    <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:4px;font-size:1.2rem;text-align:center">
-      <div style="background:var(--RED);color:var(--WHITE);padding:12px 4px">1</div>
-      <div style="background:var(--LIGHT);color:var(--DARK);padding:12px 4px">2</div>
-      <div style="background:var(--LIGHT);color:var(--DARK);padding:12px 4px">3</div>
-      <div style="background:var(--LIGHT);color:var(--DARK);padding:12px 4px">4</div>
-      <div style="background:var(--LIGHT);color:var(--DARK);padding:12px 4px">5</div>
-      <div style="background:var(--LIGHT);color:var(--DARK);padding:12px 4px">6</div>
-      <div style="background:var(--LIGHT);color:var(--DARK);padding:12px 4px">7</div>
-      <div style="background:var(--LIGHT);color:var(--DARK);padding:12px 4px">8</div>
-    </div>
-    <div style="margin-top:12px;display:grid;grid-template-columns:repeat(8,1fr);gap:4px;font-size:1.2rem">
-      <div style="grid-column:1/4;background:var(--LIGHT);padding:8px;color:var(--DARK);text-align:center">.grid__left-content (1→sep)</div>
-      <div style="grid-column:4/-1;background:var(--MEDIUM);padding:8px;color:var(--WHITE);text-align:center">.grid__right-content (sep→-1)</div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"wrapper"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"grid"</span><span class="tg">&gt;</span>
-    <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"grid__left-content"</span><span class="tg">&gt;</span>…<span class="tg">&lt;/div&gt;</span>
-    <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"grid__right-content"</span><span class="tg">&gt;</span>…<span class="tg">&lt;/div&gt;</span>
-  <span class="tg">&lt;/div&gt;</span>
-<span class="tg">&lt;/div&gt;</span></div>
-</section>
+    <!-- ══ layout ══ -->
+    <div id="layout" class="grid grid--hidden">
+      <fieldset class="hr_fieldset"><legend><h6>layout</h6></legend></fieldset>
 
-<!-- Border utilities -->
-<section id="border" class="sc">
-  <h2 class="sc-title">Borders <span class="sc-origin">owo</span></h2>
-  <p class="sc-desc">Three utility classes from owo. Hover to see the transition.</p>
-  <div class="demo">
-    <div class="demo-row" style="align-items:stretch;gap:var(--GRID-GAP)">
-      <div class="border" style="padding:16px;flex:1;font-size:1.4rem;color:var(--DARK)">
-        <div style="font-weight:700;margin-bottom:4px">.border</div>
-        <div style="color:var(--MEDIUM);font-size:1.3rem">LIGHT → DARK on hover</div>
+      <div class="card__wrapper border_dashed"><div class="card__text-container"><h4>1</h4></div></div>
+      <div class="card__wrapper border_dashed"><div class="card__text-container"><h4>2</h4></div></div>
+      <div class="card__wrapper border_dashed"><div class="card__text-container"><h4>3</h4></div></div>
+      <div class="card__wrapper border_dashed"><div class="card__text-container"><h4>4</h4></div></div>
+      <div class="card__wrapper border_dashed"><div class="card__text-container"><h4>5</h4></div></div>
+      <div class="card__wrapper border_dashed"><div class="card__text-container"><h4>6</h4></div></div>
+      <div class="card__wrapper border_dashed"><div class="card__text-container"><h4>7</h4></div></div>
+      <div class="card__wrapper border_dashed"><div class="card__text-container"><h4>8</h4></div></div>
+
+      <div class="grid__left-content border box"><h6>.grid__left-content</h6></div>
+      <div class="grid__right-content border box"><h6>.grid__right-content</h6></div>
+
+      <div class="grid__left-content">
+        <p>
+          .wrapper is the page: a flex column with 32px between rows. Every row is a
+          .grid — 8 columns of 190px with a 16px gap, centered. Resize the window:
+          1680px → 6 columns, 1268px → 4, 858px → 3, 650px → 2, 444px → 2 × 1fr,
+          360px → 1.
+        </p>
+        <p>
+          .grid__left-content runs from the first column to --SEPARATOR-COLUMN
+          (4 → 3 → 2), .grid__right-content from there to the end.
+        </p>
       </div>
-      <div class="border_light" style="padding:16px;flex:1;font-size:1.4rem;color:var(--DARK)">
-        <div style="font-weight:700;margin-bottom:4px">.border_light</div>
-        <div style="color:var(--MEDIUM);font-size:1.3rem">LIGHT → WHITE on hover</div>
-      </div>
-      <div class="border_dashed" style="padding:16px;flex:1;font-size:1.4rem;color:var(--DARK)">
-        <div style="font-weight:700;margin-bottom:4px">.border_dashed</div>
-        <div style="color:var(--MEDIUM);font-size:1.3rem">dashed LIGHT → solid DARK</div>
+      <div class="grid__right-content">
+        <pre><code>&lt;div class="wrapper"&gt;
+  &lt;header class="grid header"&gt;…&lt;/header&gt;
+
+  &lt;div class="grid"&gt;
+    &lt;div class="grid__left-content"&gt;…&lt;/div&gt;
+    &lt;div class="grid__right-content"&gt;…&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;footer class="grid footer"&gt;…&lt;/footer&gt;
+&lt;/div&gt;</code></pre>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- Card — media (owo) -->
-<section id="card-media" class="sc">
-  <h2 class="sc-title">Card — media <span class="sc-origin">owo</span></h2>
-  <p class="sc-desc">owo's original card. 288px fixed height, absolute text overlay. Uses <code>.border_light</code>.</p>
-  <div class="demo">
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,190px);gap:var(--GRID-GAP)">
+    <!-- ══ hr ══ -->
+    <div id="hr" class="grid">
+      <fieldset class="hr_fieldset"><legend><h6>hr</h6></legend></fieldset>
 
-      <!-- card with image 1 -->
-      <a class="card__wrapper border_light" href="#" style="text-decoration:none">
+      <div class="grid__left-content">
+        <p>
+          A divider: a 1px LIGHT line, optionally with a label — .hr_fieldset with an h6
+          legend, always lowercase. It works in any block.
+        </p>
+        <p>
+          As a direct child of .grid it spans the whole row (grid-column: 1 / -1). That is
+          how owo heads its sections — resources, featured-projects, footer — and how every
+          section on this page starts.
+        </p>
+      </div>
+      <div class="grid__right-content">
+        <fieldset class="hr_fieldset"><legend><h6>with label</h6></legend></fieldset>
+        <p>Text between dividers inside a plain block.</p>
+        <hr />
+        <p>A plain hr is the same line without a label.</p>
+      </div>
+
+      <div class="grid__right-content">
+        <pre><code>&lt;fieldset class="hr_fieldset"&gt;
+  &lt;legend&gt;&lt;h6&gt;label&lt;/h6&gt;&lt;/legend&gt;
+&lt;/fieldset&gt;
+
+&lt;hr /&gt;
+
+&lt;!-- as a section heading --&gt;
+&lt;div class="grid"&gt;
+  &lt;fieldset class="hr_fieldset"&gt;&lt;legend&gt;&lt;h6&gt;section&lt;/h6&gt;&lt;/legend&gt;&lt;/fieldset&gt;
+  …
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- ══ border ══ -->
+    <div id="border" class="grid grid--hidden">
+      <fieldset class="hr_fieldset"><legend><h6>border</h6></legend></fieldset>
+
+      <div class="card__wrapper border"><div class="card__text-container"><h4 class="card__text-header">.border</h4><h6>LIGHT → DARK</h6></div></div>
+      <div class="card__wrapper border_light"><div class="card__text-container"><h4 class="card__text-header">.border_light</h4><h6>LIGHT → WHITE</h6></div></div>
+      <div class="card__wrapper border_dashed"><div class="card__text-container"><h4 class="card__text-header">.border_dashed</h4><h6>dashed → solid DARK</h6></div></div>
+
+      <div class="grid__left-content">
+        <p>
+          1px borders that change on hover. .border_light is the media card border — it
+          fades into the white page on hover. .border_dashed marks the directory badge.
+        </p>
+      </div>
+      <div class="grid__right-content">
+        <pre><code>&lt;div class="border"&gt;…&lt;/div&gt;
+&lt;div class="border_light"&gt;…&lt;/div&gt;
+&lt;div class="border_dashed"&gt;…&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- ══ card ══ -->
+    <div id="card" class="grid">
+      <fieldset class="hr_fieldset"><legend><h6>card</h6></legend></fieldset>
+
+      <a class="card__wrapper border_light" href="#card">
         <picture class="card__cover-container">
-          <img class="card__img" src="https://picsum.photos/seed/owo1/190/288" alt="cover">
+          <img class="card__img" src="https://picsum.photos/seed/owo1/190/288" alt="page card cover" />
         </picture>
-        <div class="card__text-container" style="background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 55%);color:var(--WHITE)">
-          <h4 class="card__text-header">Architecture</h4>
-          <h6 style="color:rgba(255,255,255,.7)">urban grid</h6>
-        </div>
+        <div class="card__text-container"><h4 class="card__text-header">cover</h4></div>
       </a>
 
-      <!-- card with image 2 -->
-      <a class="card__wrapper border_light" href="#" style="text-decoration:none">
+      <a class="card__wrapper border_light" href="#card">
+        <h6 class="card__dir-badge border_dashed">directory</h6>
         <picture class="card__cover-container">
-          <img class="card__img" src="https://picsum.photos/seed/owo2/190/288" alt="cover">
+          <img class="card__img" src="https://picsum.photos/seed/owo2/190/288" alt="page card cover" />
         </picture>
-        <div class="card__text-container" style="background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 55%);color:var(--WHITE)">
-          <h4 class="card__text-header">Landscape</h4>
-          <h6 style="color:rgba(255,255,255,.7)">nature series</h6>
-        </div>
+        <div class="card__text-container"><h4 class="card__text-header">directory</h4></div>
       </a>
 
-      <!-- card with image 3 -->
-      <a class="card__wrapper border_light" href="#" style="text-decoration:none">
+      <a class="card__wrapper border_light" href="#card">
+        <div class="card__text-container"><h4 class="card__text-header">no cover</h4></div>
+      </a>
+
+      <a class="card__wrapper border_light card--span-2" href="#card">
+        <h6 class="card__dir-badge border_dashed">directory</h6>
         <picture class="card__cover-container">
-          <img class="card__img" src="https://picsum.photos/seed/owo3/190/288" alt="cover">
+          <img class="card__img" src="https://picsum.photos/seed/owo3/396/288" alt="page card cover" />
         </picture>
-        <div class="card__text-container" style="background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 55%);color:var(--WHITE)">
-          <h4 class="card__text-header">Abstract</h4>
-          <h6 style="color:rgba(255,255,255,.7)">texture</h6>
-        </div>
+        <div class="card__text-container"><h4 class="card__text-header">card--span-2</h4></div>
       </a>
 
-      <!-- card without image (color bg) -->
-      <a class="card__wrapper border_light" href="#" style="text-decoration:none;background:var(--LIGHT)">
-        <div class="card__text-container">
-          <h4 class="card__text-header">No cover</h4>
-          <h6>plain background</h6>
-        </div>
+      <a class="card__wrapper border_light card--span-4" href="#card">
+        <picture class="card__cover-container">
+          <img class="card__img" src="https://picsum.photos/seed/owo4/808/288" alt="page card cover" />
+        </picture>
+        <div class="card__text-container"><h4 class="card__text-header">card--span-4</h4></div>
       </a>
 
-      <!-- card accent -->
-      <a class="card__wrapper border_light" href="#" style="text-decoration:none;background:var(--RED)">
-        <div class="card__text-container" style="color:var(--WHITE)">
-          <h4 class="card__text-header">Accent</h4>
-          <h6 style="color:rgba(255,255,255,.7)">red fill</h6>
-        </div>
+      <div class="grid__left-content">
+        <p>
+          The resource card: 288px tall (214px below 360px), cover fills it, title sits
+          bottom-left in DARK h4. Directories get a .card__dir-badge. Wide cards span 2 or
+          4 columns — owo leaves their breakpoints to the page.
+        </p>
+      </div>
+      <div class="grid__right-content">
+        <pre><code>&lt;a class="card__wrapper border_light" href="/path"&gt;
+  &lt;h6 class="card__dir-badge border_dashed"&gt;directory&lt;/h6&gt;
+  &lt;picture class="card__cover-container"&gt;
+    &lt;img class="card__img" src="cover.png" alt="page card cover" /&gt;
+  &lt;/picture&gt;
+  &lt;div class="card__text-container"&gt;
+    &lt;h4 class="card__text-header"&gt;Title&lt;/h4&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+
+&lt;a class="card__wrapper border_light card--span-2" …&gt;
+&lt;a class="card__wrapper border_light card--span-4" …&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- ══ hidden ══ -->
+    <div id="hidden" class="grid grid--hidden">
+      <fieldset class="hr_fieldset"><legend><h6>hidden</h6></legend></fieldset>
+
+      <a class="card__wrapper border_light" href="#hidden">
+        <picture class="card__cover-container">
+          <img class="card__img" src="https://picsum.photos/seed/owo5/190/288" alt="page card cover" />
+        </picture>
+        <div class="card__text-container"><h4 class="card__text-header">hidden</h4></div>
+      </a>
+      <a class="card__wrapper border_light" href="#hidden">
+        <h6 class="card__dir-badge border_dashed">directory</h6>
+        <div class="card__text-container"><h4 class="card__text-header">hidden</h4></div>
       </a>
 
+      <div class="grid__left-content">
+        <p>
+          .grid--hidden collapses cards to 80px. owo uses it for hidden resources; this
+          page uses it for swatches and layout cells.
+        </p>
+      </div>
+      <div class="grid__right-content">
+        <pre><code>&lt;div class="grid grid--hidden"&gt;
+  &lt;fieldset class="hr_fieldset"&gt;&lt;legend&gt;&lt;h6&gt;hidden&lt;/h6&gt;&lt;/legend&gt;&lt;/fieldset&gt;
+  &lt;a class="card__wrapper border_light" …&gt;…&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+      </div>
     </div>
+
+    <!-- ══ header / footer ══ -->
+    <div id="fragments" class="grid">
+      <fieldset class="hr_fieldset"><legend><h6>header / footer</h6></legend></fieldset>
+
+      <div class="grid__left-content">
+        <p>
+          Header and footer are grids too: links in h5, everything uppercase. The footer
+          is pushed to the bottom of .wrapper with margin-top: auto. Both are used on this
+          page.
+        </p>
+      </div>
+      <div class="grid__right-content">
+        <pre><code>&lt;header class="grid header"&gt;
+  &lt;a href="/"&gt;&lt;h5&gt;iwwwanow.ru&lt;/h5&gt;&lt;/a&gt;
+&lt;/header&gt;
+
+&lt;footer class="grid footer"&gt;
+  &lt;fieldset class="hr_fieldset"&gt;&lt;legend&gt;&lt;h6&gt;footer&lt;/h6&gt;&lt;/legend&gt;&lt;/fieldset&gt;
+  &lt;h5&gt;&lt;a href="https://github.com/iwwwanow/owo"&gt;owo builded&lt;/a&gt;&lt;/h5&gt;
+&lt;/footer&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- ══ reset / base ══ -->
+    <div id="base" class="grid">
+      <fieldset class="hr_fieldset"><legend><h6>reset / base</h6></legend></fieldset>
+
+      <div class="grid__left-content">
+        <p>
+          A full reset: no margins, paddings or borders, border-box everywhere, no list
+          bullets, no link underline, form controls inherit font and colour. Square 8px
+          scrollbar on LIGHT, BLUE text selection — select this text to see it.
+        </p>
+      </div>
+      <div class="grid__right-content">
+        <pre><code>* { padding: 0; margin: 0; border: none; }
+*, *::before, *::after { box-sizing: border-box; }
+
+::selection { color: white; background: var(--BLUE); }
+
+::-webkit-scrollbar { height: 8px; width: 8px; }
+::-webkit-scrollbar-track { background: var(--LIGHT); }
+::-webkit-scrollbar-thumb { background: var(--MEDIUM); }
+::-webkit-scrollbar-thumb:hover { background: var(--DARK); }</code></pre>
+      </div>
+    </div>
+
+    <footer class="grid footer">
+      <fieldset class="hr_fieldset"><legend><h6>footer</h6></legend></fieldset>
+      <h5><a href="https://github.com/iwwwanow/owo">owo</a></h5>
+      <h5><a href="https://github.com/iwwwanow/ui-kit">ui-kit v0.2.0</a></h5>
+    </footer>
+
   </div>
-  <div class="snip"><span class="kw">/* С картинкой — градиент для читаемости текста */</span>
-<span class="tg">&lt;a</span> <span class="at">class</span>=<span class="vl">"card__wrapper border_light"</span> <span class="at">href</span>=<span class="vl">"/path"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;picture</span> <span class="at">class</span>=<span class="vl">"card__cover-container"</span><span class="tg">&gt;</span>
-    <span class="tg">&lt;img</span> <span class="at">src</span>=<span class="vl">"cover.jpg"</span> <span class="at">class</span>=<span class="vl">"card__img"</span> <span class="at">alt</span>=<span class="vl">"cover"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;/picture&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"card__text-container"</span>
-       <span class="at">style</span>=<span class="vl">"background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 55%);color:#fff"</span><span class="tg">&gt;</span>
-    <span class="tg">&lt;h4</span> <span class="at">class</span>=<span class="vl">"card__text-header"</span><span class="tg">&gt;</span>Title<span class="tg">&lt;/h4&gt;</span>
-    <span class="tg">&lt;h6</span> <span class="at">style</span>=<span class="vl">"color:rgba(255,255,255,.7)"</span><span class="tg">&gt;</span>subtitle<span class="tg">&lt;/h6&gt;</span>
-  <span class="tg">&lt;/div&gt;</span>
-<span class="tg">&lt;/a&gt;</span>
-
-<span class="kw">/* Без картинки */</span>
-<span class="tg">&lt;a</span> <span class="at">class</span>=<span class="vl">"card__wrapper border_light"</span> <span class="at">href</span>=<span class="vl">"/path"</span> <span class="at">style</span>=<span class="vl">"background:var(--LIGHT)"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"card__text-container"</span><span class="tg">&gt;</span>
-    <span class="tg">&lt;h4</span> <span class="at">class</span>=<span class="vl">"card__text-header"</span><span class="tg">&gt;</span>Title<span class="tg">&lt;/h4&gt;</span>
-    <span class="tg">&lt;h6&gt;</span>subtitle<span class="tg">&lt;/h6&gt;</span>
-  <span class="tg">&lt;/div&gt;</span>
-<span class="tg">&lt;/a&gt;</span></div>
-</section>
-
-<hr class="sc-sep">
-
-<!-- Buttons -->
-<section id="buttons" class="sc">
-  <h2 class="sc-title">Buttons</h2>
-  <p class="sc-desc"><code>.btn</code> + variant. Sizes: <code>.btn-sm</code> · <code>.btn-lg</code>. Disabled via attribute.</p>
-  <div class="demo">
-    <div class="demo-row">
-      <button class="btn btn-primary">Primary</button>
-      <button class="btn btn-default">Default</button>
-      <button class="btn btn-ghost">Ghost</button>
-      <button class="btn btn-danger">Danger</button>
-      <button class="btn btn-blue">Blue</button>
-    </div>
-    <div class="demo-row">
-      <button class="btn btn-primary btn-sm">Small</button>
-      <button class="btn btn-primary">Default</button>
-      <button class="btn btn-primary btn-lg">Large</button>
-    </div>
-    <div class="demo-row">
-      <button class="btn btn-primary" disabled>Primary</button>
-      <button class="btn btn-default" disabled>Default</button>
-      <button class="btn btn-ghost" disabled>Ghost</button>
-      <span style="font-size:1.2rem;color:var(--MEDIUM)">— disabled</span>
-    </div>
-    <div class="demo-row">
-      <button class="btn btn-primary">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-        Download
-      </button>
-      <button class="btn btn-default">
-        <div class="spinner spinner-sm"></div>
-        Loading
-      </button>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;button</span> <span class="at">class</span>=<span class="vl">"btn btn-primary"</span><span class="tg">&gt;</span>Save<span class="tg">&lt;/button&gt;</span>
-<span class="tg">&lt;button</span> <span class="at">class</span>=<span class="vl">"btn btn-default btn-sm"</span><span class="tg">&gt;</span>Cancel<span class="tg">&lt;/button&gt;</span>
-<span class="tg">&lt;button</span> <span class="at">class</span>=<span class="vl">"btn btn-danger"</span> <span class="at">disabled</span><span class="tg">&gt;</span>Delete<span class="tg">&lt;/button&gt;</span></div>
-</section>
-
-<!-- Inputs -->
-<section id="inputs" class="sc">
-  <h2 class="sc-title">Inputs</h2>
-  <p class="sc-desc">Hover → DARK border. Focus → BLUE border. Wrap with <code>.form-group</code>.</p>
-  <div class="demo">
-    <div class="demo-col" style="max-width:380px">
-      <div class="form-group">
-        <label class="form-label">Default</label>
-        <input type="text" class="input" placeholder="Placeholder…">
-      </div>
-      <div class="form-group">
-        <label class="form-label">With hint</label>
-        <input type="text" class="input" value="Some value">
-        <span class="form-hint">Helper text below the field.</span>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Error</label>
-        <input type="email" class="input input--error" value="bad-email">
-        <span class="form-error">Enter a valid email address.</span>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Success</label>
-        <input type="text" class="input input--success" value="Valid value">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Disabled</label>
-        <input type="text" class="input" placeholder="Not editable" disabled>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Password</label>
-        <input type="password" class="input" value="secret123">
-      </div>
-    </div>
-    <div style="margin-top:20px">
-      <div class="form-label" style="margin-bottom:10px">Sizes</div>
-      <div class="demo-col" style="max-width:380px;gap:6px">
-        <input class="input input-sm" placeholder="Small">
-        <input class="input" placeholder="Default">
-        <input class="input input-lg" placeholder="Large">
-      </div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"form-group"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;label</span> <span class="at">class</span>=<span class="vl">"form-label"</span><span class="tg">&gt;</span>Email<span class="tg">&lt;/label&gt;</span>
-  <span class="tg">&lt;input</span> <span class="at">type</span>=<span class="vl">"email"</span> <span class="at">class</span>=<span class="vl">"input"</span> <span class="at">placeholder</span>=<span class="vl">"you@example.com"</span><span class="tg">&gt;</span>
-<span class="tg">&lt;/div&gt;</span></div>
-</section>
-
-<!-- Textarea -->
-<section id="textarea" class="sc">
-  <h2 class="sc-title">Textarea</h2>
-  <p class="sc-desc">Multiline. Resizable vertically.</p>
-  <div class="demo">
-    <div class="demo-col" style="max-width:480px">
-      <div class="form-group">
-        <label class="form-label">Message</label>
-        <textarea class="textarea" placeholder="Write here…"></textarea>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Disabled</label>
-        <textarea class="textarea" disabled>Read only.</textarea>
-      </div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"form-group"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;label</span> <span class="at">class</span>=<span class="vl">"form-label"</span><span class="tg">&gt;</span>Message<span class="tg">&lt;/label&gt;</span>
-  <span class="tg">&lt;textarea</span> <span class="at">class</span>=<span class="vl">"textarea"</span> <span class="at">placeholder</span>=<span class="vl">"Write here…"</span><span class="tg">&gt;&lt;/textarea&gt;</span>
-<span class="tg">&lt;/div&gt;</span></div>
-</section>
-
-<!-- Select -->
-<section id="select" class="sc">
-  <h2 class="sc-title">Select</h2>
-  <p class="sc-desc">Native <code>&lt;select&gt;</code> with custom arrow.</p>
-  <div class="demo">
-    <div class="demo-col" style="max-width:320px">
-      <div class="form-group">
-        <label class="form-label">Framework</label>
-        <select class="select">
-          <option>Choose…</option>
-          <option>React</option>
-          <option>Vue</option>
-          <option>Svelte</option>
-          <option>Solid</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Disabled</label>
-        <select class="select" disabled><option>Disabled</option></select>
-      </div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"form-group"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;label</span> <span class="at">class</span>=<span class="vl">"form-label"</span><span class="tg">&gt;</span>Framework<span class="tg">&lt;/label&gt;</span>
-  <span class="tg">&lt;select</span> <span class="at">class</span>=<span class="vl">"select"</span><span class="tg">&gt;</span>
-    <span class="tg">&lt;option&gt;</span>Choose…<span class="tg">&lt;/option&gt;</span>
-    <span class="tg">&lt;option&gt;</span>React<span class="tg">&lt;/option&gt;</span>
-    <span class="tg">&lt;option&gt;</span>Vue<span class="tg">&lt;/option&gt;</span>
-  <span class="tg">&lt;/select&gt;</span>
-<span class="tg">&lt;/div&gt;</span></div>
-</section>
-
-<!-- Checkbox & Radio -->
-<section id="checkbox" class="sc">
-  <h2 class="sc-title">Checkbox &amp; Radio</h2>
-  <p class="sc-desc">Flat, checked = RED fill.</p>
-  <div class="demo">
-    <div class="demo-row" style="align-items:flex-start;gap:48px;flex-wrap:wrap">
-      <div class="demo-col" style="gap:12px">
-        <div class="form-label">Checkbox</div>
-        <label class="checkbox"><input type="checkbox"> Unchecked</label>
-        <label class="checkbox"><input type="checkbox" checked> Checked</label>
-        <label class="checkbox"><input type="checkbox" disabled> Disabled</label>
-        <label class="checkbox"><input type="checkbox" checked disabled> Checked + disabled</label>
-      </div>
-      <div class="demo-col" style="gap:12px">
-        <div class="form-label">Radio</div>
-        <label class="radio"><input type="radio" name="r1"> Option A</label>
-        <label class="radio"><input type="radio" name="r1" checked> Option B</label>
-        <label class="radio"><input type="radio" name="r1"> Option C</label>
-        <label class="radio"><input type="radio" name="r1" disabled> Disabled</label>
-      </div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;label</span> <span class="at">class</span>=<span class="vl">"checkbox"</span><span class="tg">&gt;&lt;input</span> <span class="at">type</span>=<span class="vl">"checkbox"</span><span class="tg">&gt;</span> Option<span class="tg">&lt;/label&gt;</span>
-<span class="tg">&lt;label</span> <span class="at">class</span>=<span class="vl">"checkbox"</span><span class="tg">&gt;&lt;input</span> <span class="at">type</span>=<span class="vl">"checkbox"</span> <span class="at">checked</span><span class="tg">&gt;</span> Checked<span class="tg">&lt;/label&gt;</span>
-<span class="tg">&lt;label</span> <span class="at">class</span>=<span class="vl">"checkbox"</span><span class="tg">&gt;&lt;input</span> <span class="at">type</span>=<span class="vl">"checkbox"</span> <span class="at">disabled</span><span class="tg">&gt;</span> Disabled<span class="tg">&lt;/label&gt;</span>
-
-<span class="tg">&lt;label</span> <span class="at">class</span>=<span class="vl">"radio"</span><span class="tg">&gt;&lt;input</span> <span class="at">type</span>=<span class="vl">"radio"</span> <span class="at">name</span>=<span class="vl">"group"</span><span class="tg">&gt;</span> Option A<span class="tg">&lt;/label&gt;</span>
-<span class="tg">&lt;label</span> <span class="at">class</span>=<span class="vl">"radio"</span><span class="tg">&gt;&lt;input</span> <span class="at">type</span>=<span class="vl">"radio"</span> <span class="at">name</span>=<span class="vl">"group"</span> <span class="at">checked</span><span class="tg">&gt;</span> Option B<span class="tg">&lt;/label&gt;</span></div>
-</section>
-
-<!-- Toggle -->
-<section id="toggle" class="sc">
-  <h2 class="sc-title">Toggle</h2>
-  <p class="sc-desc">Hidden checkbox + flat track + square thumb.</p>
-  <div class="demo">
-    <div class="demo-col" style="gap:14px">
-      <label class="toggle">
-        <input type="checkbox">
-        <div class="toggle__track"><div class="toggle__thumb"></div></div>
-        Notifications
-      </label>
-      <label class="toggle">
-        <input type="checkbox" checked>
-        <div class="toggle__track"><div class="toggle__thumb"></div></div>
-        Dark mode <span style="color:var(--MEDIUM);font-size:1.3rem">(on)</span>
-      </label>
-      <label class="toggle" style="opacity:.4;pointer-events:none">
-        <input type="checkbox">
-        <div class="toggle__track"><div class="toggle__thumb"></div></div>
-        Disabled
-      </label>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;label</span> <span class="at">class</span>=<span class="vl">"toggle"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;input</span> <span class="at">type</span>=<span class="vl">"checkbox"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"toggle__track"</span><span class="tg">&gt;&lt;div</span> <span class="at">class</span>=<span class="vl">"toggle__thumb"</span><span class="tg">&gt;&lt;/div&gt;&lt;/div&gt;</span>
-  Label text
-<span class="tg">&lt;/label&gt;</span>
-
-<span class="kw">/* Disabled: add opacity + pointer-events:none on the label */</span>
-<span class="tg">&lt;label</span> <span class="at">class</span>=<span class="vl">"toggle"</span> <span class="at">style</span>=<span class="vl">"opacity:.4;pointer-events:none"</span><span class="tg">&gt;</span>…<span class="tg">&lt;/label&gt;</span></div>
-</section>
-
-<!-- Card UI -->
-<section id="card-ui" class="sc">
-  <h2 class="sc-title">Card — UI</h2>
-  <p class="sc-desc">Generic content container. Same flat border as owo. Hover → DARK border.</p>
-  <div class="demo">
-    <div class="demo-grid">
-      <div class="card">
-        <div class="card__body">
-          <div class="card__title">Simple card</div>
-          <div class="card__subtitle">Subtitle</div>
-          <p style="margin-top:8px;font-size:1.4rem;color:var(--MEDIUM)">Any content inside <code>.card__body</code>.</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card__header">
-          <div class="card__title">With header</div>
-          <span class="badge badge-accent">New</span>
-        </div>
-        <div class="card__body">
-          <p style="font-size:1.4rem;color:var(--MEDIUM)">Header holds title + optional badge or action.</p>
-        </div>
-        <div class="card__footer">
-          <button class="btn btn-primary btn-sm">Confirm</button>
-          <button class="btn btn-ghost btn-sm">Cancel</button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card__body">
-          <div class="card__title">Hover me</div>
-          <p style="margin-top:8px;font-size:1.4rem;color:var(--MEDIUM)">Border goes LIGHT → DARK.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"card"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"card__header"</span><span class="tg">&gt;</span>…<span class="tg">&lt;/div&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"card__body"</span><span class="tg">&gt;</span>…<span class="tg">&lt;/div&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"card__footer"</span><span class="tg">&gt;</span>…<span class="tg">&lt;/div&gt;</span>
-<span class="tg">&lt;/div&gt;</span></div>
-</section>
-
-<!-- Badges -->
-<section id="badges" class="sc">
-  <h2 class="sc-title">Badges</h2>
-  <p class="sc-desc">Flat, 1px border, no fill. Add <code>.badge-dot</code> for dot prefix.</p>
-  <div class="demo">
-    <div class="demo-row">
-      <span class="badge badge-default">Default</span>
-      <span class="badge badge-accent">Accent</span>
-      <span class="badge badge-success">Success</span>
-      <span class="badge badge-warning">Warning</span>
-      <span class="badge badge-error">Error</span>
-      <span class="badge badge-info">Info</span>
-    </div>
-    <div class="demo-row">
-      <span class="badge badge-success badge-dot">Online</span>
-      <span class="badge badge-error badge-dot">Offline</span>
-      <span class="badge badge-warning badge-dot">Pending</span>
-      <span class="badge badge-accent badge-dot">New</span>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"badge badge-default"</span><span class="tg">&gt;</span>Default<span class="tg">&lt;/span&gt;</span>
-<span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"badge badge-accent"</span><span class="tg">&gt;</span>Accent<span class="tg">&lt;/span&gt;</span>
-<span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"badge badge-success"</span><span class="tg">&gt;</span>Success<span class="tg">&lt;/span&gt;</span>
-<span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"badge badge-warning"</span><span class="tg">&gt;</span>Warning<span class="tg">&lt;/span&gt;</span>
-<span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"badge badge-error"</span><span class="tg">&gt;</span>Error<span class="tg">&lt;/span&gt;</span>
-<span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"badge badge-info"</span><span class="tg">&gt;</span>Info<span class="tg">&lt;/span&gt;</span>
-
-<span class="kw">/* With dot indicator */</span>
-<span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"badge badge-success badge-dot"</span><span class="tg">&gt;</span>Online<span class="tg">&lt;/span&gt;</span></div>
-</section>
-
-<!-- Tags -->
-<section id="tags" class="sc">
-  <h2 class="sc-title">Tags</h2>
-  <p class="sc-desc">Pill tags — same border system. <code>.tag-active</code> → RED.</p>
-  <div class="demo">
-    <div class="demo-row">
-      <span class="tag">design</span>
-      <span class="tag">frontend</span>
-      <span class="tag tag-active">selected</span>
-      <span class="tag">motion</span>
-    </div>
-    <div class="demo-row">
-      <span class="tag">React <span class="tag-close">×</span></span>
-      <span class="tag">TypeScript <span class="tag-close">×</span></span>
-      <span class="tag tag-active">CSS <span class="tag-close">×</span></span>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"tag"</span><span class="tg">&gt;</span>design<span class="tg">&lt;/span&gt;</span>
-<span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"tag tag-active"</span><span class="tg">&gt;</span>selected<span class="tg">&lt;/span&gt;</span>
-
-<span class="kw">/* With close button */</span>
-<span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"tag"</span><span class="tg">&gt;</span>React <span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"tag-close"</span><span class="tg">&gt;</span>×<span class="tg">&lt;/span&gt;&lt;/span&gt;</span></div>
-</section>
-
-<!-- Alerts -->
-<section id="alerts" class="sc">
-  <h2 class="sc-title">Alerts</h2>
-  <p class="sc-desc">White background, colored 1px border.</p>
-  <div class="demo">
-    <div class="demo-col" style="gap:8px">
-      <div class="alert alert-default"><span class="alert-icon">ℹ</span><div><div class="alert-title">Note</div>A neutral informational message.</div></div>
-      <div class="alert alert-success"><span class="alert-icon">✓</span><div><div class="alert-title">Success</div>Changes saved successfully.</div></div>
-      <div class="alert alert-warning"><span class="alert-icon">⚠</span><div><div class="alert-title">Warning</div>This affects all connected services.</div></div>
-      <div class="alert alert-error"><span class="alert-icon">✕</span><div><div class="alert-title">Error</div>Failed to process. Please retry.</div></div>
-      <div class="alert alert-info"><span class="alert-icon">◎</span><div><div class="alert-title">Update</div>Version 1.2.0 is ready.</div></div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"alert alert-default"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"alert-icon"</span><span class="tg">&gt;</span>ℹ<span class="tg">&lt;/span&gt;</span>
-  <span class="tg">&lt;div&gt;</span>
-    <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"alert-title"</span><span class="tg">&gt;</span>Note<span class="tg">&lt;/div&gt;</span>
-    Message text here.
-  <span class="tg">&lt;/div&gt;</span>
-<span class="tg">&lt;/div&gt;</span>
-
-<span class="kw">/* Variants: alert-default  alert-success  alert-warning  alert-error  alert-info */</span></div>
-</section>
-
-<!-- Progress -->
-<section id="progress" class="sc">
-  <h2 class="sc-title">Progress</h2>
-  <p class="sc-desc">LIGHT track. Colored fill bar.</p>
-  <div class="demo">
-    <div class="demo-col" style="gap:16px">
-      <div>
-        <div style="display:flex;justify-content:space-between;font-size:1.2rem;color:var(--MEDIUM);margin-bottom:6px"><span>Accent (RED)</span><span>67%</span></div>
-        <div class="progress"><div class="progress-bar" style="width:67%"></div></div>
-      </div>
-      <div>
-        <div style="display:flex;justify-content:space-between;font-size:1.2rem;color:var(--MEDIUM);margin-bottom:6px"><span>Success</span><span>100%</span></div>
-        <div class="progress progress-success"><div class="progress-bar" style="width:100%"></div></div>
-      </div>
-      <div>
-        <div style="display:flex;justify-content:space-between;font-size:1.2rem;color:var(--MEDIUM);margin-bottom:6px"><span>Warning</span><span>42%</span></div>
-        <div class="progress progress-warning"><div class="progress-bar" style="width:42%"></div></div>
-      </div>
-      <div>
-        <div style="display:flex;justify-content:space-between;font-size:1.2rem;color:var(--MEDIUM);margin-bottom:6px"><span>Info</span><span>85%</span></div>
-        <div class="progress progress-info"><div class="progress-bar" style="width:85%"></div></div>
-      </div>
-      <div>
-        <div style="font-size:1.2rem;color:var(--MEDIUM);margin-bottom:6px">.progress-lg (8px)</div>
-        <div class="progress progress-lg"><div class="progress-bar" style="width:55%"></div></div>
-      </div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"progress"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"progress-bar"</span> <span class="at">style</span>=<span class="vl">"width:67%"</span><span class="tg">&gt;&lt;/div&gt;</span>
-<span class="tg">&lt;/div&gt;</span>
-
-<span class="kw">/* Variants: progress-success  progress-warning  progress-info */</span>
-<span class="kw">/* Tall track: add .progress-lg */</span>
-<span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"progress progress-success"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"progress-bar"</span> <span class="at">style</span>=<span class="vl">"width:100%"</span><span class="tg">&gt;&lt;/div&gt;</span>
-<span class="tg">&lt;/div&gt;</span></div>
-</section>
-
-<!-- Range -->
-<section id="range" class="sc">
-  <h2 class="sc-title">Range</h2>
-  <p class="sc-desc">LIGHT track, RED thumb. Square thumb, no border-radius.</p>
-  <div class="demo">
-    <div class="demo-col" style="gap:16px;max-width:480px">
-      <div>
-        <div class="form-label" style="margin-bottom:10px">Hue 0–360</div>
-        <div class="range-row">
-          <input type="range" class="range" min="0" max="360" value="180" oninput="this.nextElementSibling.textContent=this.value" style="flex:1">
-          <span class="range-val">180</span>
-        </div>
-      </div>
-      <div>
-        <div class="form-label" style="margin-bottom:10px">Saturation 0–100</div>
-        <div class="range-row">
-          <input type="range" class="range" min="0" max="100" value="65" oninput="this.nextElementSibling.textContent=this.value" style="flex:1">
-          <span class="range-val">65</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"range-row"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;input</span> <span class="at">type</span>=<span class="vl">"range"</span> <span class="at">class</span>=<span class="vl">"range"</span> <span class="at">min</span>=<span class="vl">"0"</span> <span class="at">max</span>=<span class="vl">"100"</span> <span class="at">value</span>=<span class="vl">"50"</span>
-         <span class="at">oninput</span>=<span class="vl">"this.nextElementSibling.textContent=this.value"</span> <span class="at">style</span>=<span class="vl">"flex:1"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"range-val"</span><span class="tg">&gt;</span>50<span class="tg">&lt;/span&gt;</span>
-<span class="tg">&lt;/div&gt;</span></div>
-</section>
-
-<!-- Tables -->
-<section id="tables" class="sc">
-  <h2 class="sc-title">Tables</h2>
-  <p class="sc-desc">Flat. Hover row → LIGHT background.</p>
-  <div class="demo" style="padding:0">
-    <div class="table-wrapper">
-      <table class="table">
-        <thead>
-          <tr><th>Token</th><th>Type</th><th>Value</th><th>Status</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>--RED</code></td>
-            <td><span class="badge badge-info">color</span></td>
-            <td><span class="font-mono text-medium">#ff115c</span></td>
-            <td><span class="badge badge-success badge-dot">Stable</span></td>
-          </tr>
-          <tr>
-            <td><code>--LIGHT</code></td>
-            <td><span class="badge badge-info">color</span></td>
-            <td><span class="font-mono text-medium">#e0e0e0</span></td>
-            <td><span class="badge badge-success badge-dot">Stable</span></td>
-          </tr>
-          <tr>
-            <td><code>--GRID-GAP</code></td>
-            <td><span class="badge badge-default">size</span></td>
-            <td><span class="font-mono text-medium">16px</span></td>
-            <td><span class="badge badge-success badge-dot">Stable</span></td>
-          </tr>
-          <tr>
-            <td><code>--CARD-HEIGHT</code></td>
-            <td><span class="badge badge-default">size</span></td>
-            <td><span class="font-mono text-medium">288px</span></td>
-            <td><span class="badge badge-warning badge-dot">Fixed</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- Tabs -->
-<section id="tabs" class="sc">
-  <h2 class="sc-title">Tabs</h2>
-  <p class="sc-desc">Flat bottom border. Active → BLACK underline.</p>
-  <div class="demo">
-    <div class="tabs" id="demo-tabs">
-      <button class="tab-item active">Overview</button>
-      <button class="tab-item">Components</button>
-      <button class="tab-item">Tokens</button>
-      <button class="tab-item">Changelog</button>
-    </div>
-    <div style="padding:16px 0;font-size:1.4rem;color:var(--MEDIUM)">Tab content area</div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"tabs"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;button</span> <span class="at">class</span>=<span class="vl">"tab-item active"</span><span class="tg">&gt;</span>Overview<span class="tg">&lt;/button&gt;</span>
-  <span class="tg">&lt;button</span> <span class="at">class</span>=<span class="vl">"tab-item"</span><span class="tg">&gt;</span>Settings<span class="tg">&lt;/button&gt;</span>
-<span class="tg">&lt;/div&gt;</span>
-
-<span class="kw">/* Toggle active tab with JS */</span>
-<span class="at">tabs</span>.addEventListener(<span class="vl">'click'</span>, e =&gt; {
-  <span class="at">const</span> btn = e.target.closest(<span class="vl">'.tab-item'</span>);
-  <span class="at">if</span> (!btn) <span class="at">return</span>;
-  tabs.querySelectorAll(<span class="vl">'.tab-item'</span>).forEach(t =&gt; t.classList.remove(<span class="vl">'active'</span>));
-  btn.classList.add(<span class="vl">'active'</span>);
-});</div>
-</section>
-
-<!-- Avatars -->
-<section id="avatars" class="sc">
-  <h2 class="sc-title">Avatars</h2>
-  <p class="sc-desc">LIGHT fill, flat border. <code>.avatar-accent</code> → RED border.</p>
-  <div class="demo">
-    <div class="demo-row" style="align-items:flex-end;margin-bottom:16px">
-      <div class="avatar avatar-sm">XS</div>
-      <div class="avatar avatar-md">MD</div>
-      <div class="avatar avatar-lg">LG</div>
-      <div class="avatar avatar-xl">XL</div>
-    </div>
-    <div class="demo-row">
-      <div class="avatar avatar-md">AB</div>
-      <div class="avatar avatar-md avatar-accent">IW</div>
-      <div class="avatar avatar-md" style="background:var(--WHITE);color:var(--BLUE);border-color:var(--BLUE)">CD</div>
-      <div class="avatar avatar-md" style="background:var(--WHITE);color:var(--ORANGE);border-color:var(--ORANGE)">EF</div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"avatar avatar-md"</span><span class="tg">&gt;</span>AB<span class="tg">&lt;/div&gt;</span>
-<span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"avatar avatar-md avatar-accent"</span><span class="tg">&gt;</span>IW<span class="tg">&lt;/div&gt;</span>
-
-<span class="kw">/* Sizes: avatar-sm (24px)  avatar-md (36px)  avatar-lg (48px)  avatar-xl (72px) */</span>
-<span class="kw">/* Custom color via inline style */</span>
-<span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"avatar avatar-md"</span>
-     <span class="at">style</span>=<span class="vl">"background:#fff;color:var(--BLUE);border-color:var(--BLUE)"</span><span class="tg">&gt;</span>CD<span class="tg">&lt;/div&gt;</span></div>
-</section>
-
-<!-- Toast -->
-<section id="toast" class="sc">
-  <h2 class="sc-title">Toast</h2>
-  <p class="sc-desc">White background, LIGHT border, thick left accent.</p>
-  <div class="demo">
-    <div class="demo-col" style="gap:8px;max-width:400px">
-      <div class="toast toast-accent">
-        <div style="flex:1"><div class="toast-title">Build complete</div><div class="toast-body">2 artifacts compiled in 1.23s.</div></div>
-        <span class="toast-close" onclick="this.closest('.toast').style.display='none'">×</span>
-      </div>
-      <div class="toast toast-success">
-        <div style="flex:1"><div class="toast-title">Saved</div><div class="toast-body">All changes persisted.</div></div>
-        <span class="toast-close" onclick="this.closest('.toast').style.display='none'">×</span>
-      </div>
-      <div class="toast toast-warning">
-        <div style="flex:1"><div class="toast-title">Rate limit</div><div class="toast-body">3 requests remaining.</div></div>
-        <span class="toast-close" onclick="this.closest('.toast').style.display='none'">×</span>
-      </div>
-      <div class="toast toast-error">
-        <div style="flex:1"><div class="toast-title">Connection lost</div><div class="toast-body">Reconnecting in 5s…</div></div>
-        <span class="toast-close" onclick="this.closest('.toast').style.display='none'">×</span>
-      </div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"toast toast-accent"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">style</span>=<span class="vl">"flex:1"</span><span class="tg">&gt;</span>
-    <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"toast-title"</span><span class="tg">&gt;</span>Build complete<span class="tg">&lt;/div&gt;</span>
-    <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"toast-body"</span><span class="tg">&gt;</span>2 artifacts compiled in 1.23s.<span class="tg">&lt;/div&gt;</span>
-  <span class="tg">&lt;/div&gt;</span>
-  <span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"toast-close"</span>
-        <span class="at">onclick</span>=<span class="vl">"this.closest('.toast').style.display='none'"</span><span class="tg">&gt;</span>×<span class="tg">&lt;/span&gt;</span>
-<span class="tg">&lt;/div&gt;</span>
-
-<span class="kw">/* Left border variants: toast-accent  toast-success  toast-warning  toast-error  toast-info */</span></div>
-</section>
-
-<!-- Breadcrumbs -->
-<section id="breadcrumbs" class="sc">
-  <h2 class="sc-title">Breadcrumbs</h2>
-  <p class="sc-desc">MEDIUM color, last item DARK. Hover → BLUE + underline (owo link style).</p>
-  <div class="demo">
-    <div class="demo-col" style="gap:14px">
-      <nav class="breadcrumbs">
-        <span class="breadcrumb-item"><a href="#">Home</a></span>
-        <span class="breadcrumb-sep">/</span>
-        <span class="breadcrumb-item"><a href="#">Components</a></span>
-        <span class="breadcrumb-sep">/</span>
-        <span class="breadcrumb-item">Breadcrumbs</span>
-      </nav>
-      <nav class="breadcrumbs">
-        <span class="breadcrumb-item"><a href="#">iwwwanow</a></span>
-        <span class="breadcrumb-sep">›</span>
-        <span class="breadcrumb-item"><a href="#">ui-kit</a></span>
-        <span class="breadcrumb-sep">›</span>
-        <span class="breadcrumb-item">index</span>
-      </nav>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;nav</span> <span class="at">class</span>=<span class="vl">"breadcrumbs"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"breadcrumb-item"</span><span class="tg">&gt;&lt;a</span> <span class="at">href</span>=<span class="vl">"/"</span><span class="tg">&gt;</span>Home<span class="tg">&lt;/a&gt;&lt;/span&gt;</span>
-  <span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"breadcrumb-sep"</span><span class="tg">&gt;</span>/<span class="tg">&lt;/span&gt;</span>
-  <span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"breadcrumb-item"</span><span class="tg">&gt;&lt;a</span> <span class="at">href</span>=<span class="vl">"/components"</span><span class="tg">&gt;</span>Components<span class="tg">&lt;/a&gt;&lt;/span&gt;</span>
-  <span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"breadcrumb-sep"</span><span class="tg">&gt;</span>/<span class="tg">&lt;/span&gt;</span>
-  <span class="tg">&lt;span</span> <span class="at">class</span>=<span class="vl">"breadcrumb-item"</span><span class="tg">&gt;</span>Current page<span class="tg">&lt;/span&gt;</span>
-<span class="tg">&lt;/nav&gt;</span>
-
-<span class="kw">/* Separator can be any char: / › • — */</span></div>
-</section>
-
-<!-- Tooltip -->
-<section id="misc" class="sc">
-  <h2 class="sc-title">Tooltip</h2>
-  <p class="sc-desc">Чистый CSS — никакого JS. Оборачиваешь триггер в <code>.tooltip-wrapper</code>, внутрь кладёшь <code>.tooltip</code>.</p>
-  <div class="demo" style="padding-top:36px">
-    <div class="demo-row">
-      <div class="tooltip-wrapper">
-        <button class="btn btn-default">Hover me</button>
-        <div class="tooltip">Plain tooltip</div>
-      </div>
-      <div class="tooltip-wrapper">
-        <button class="btn btn-primary">Save</button>
-        <div class="tooltip">Ctrl + S</div>
-      </div>
-      <div class="tooltip-wrapper">
-        <span style="font-size:1.4rem;color:var(--MEDIUM);cursor:default;border-bottom:1px dashed var(--LIGHT)">что это?</span>
-        <div class="tooltip">Подсказка на любом элементе</div>
-      </div>
-      <div class="tooltip-wrapper">
-        <kbd>⌘ K</kbd>
-        <div class="tooltip">Command palette</div>
-      </div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"tooltip-wrapper"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;button</span> <span class="at">class</span>=<span class="vl">"btn btn-default"</span><span class="tg">&gt;</span>Save<span class="tg">&lt;/button&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"tooltip"</span><span class="tg">&gt;</span>Ctrl + S<span class="tg">&lt;/div&gt;</span>
-<span class="tg">&lt;/div&gt;</span>
-
-<span class="kw">/* Работает на ЛЮБОМ элементе — кнопке, тексте, иконке, kbd */</span>
-<span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"tooltip-wrapper"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;kbd&gt;</span>⌘ K<span class="tg">&lt;/kbd&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"tooltip"</span><span class="tg">&gt;</span>Command palette<span class="tg">&lt;/div&gt;</span>
-<span class="tg">&lt;/div&gt;</span></div>
-</section>
-
-<!-- Kbd -->
-<section id="kbd" class="sc">
-  <h2 class="sc-title">Kbd</h2>
-  <p class="sc-desc">Клавиши клавиатуры. Используй для шорткатов в интерфейсе или документации.</p>
-  <div class="demo">
-    <div class="demo-col" style="gap:16px">
-      <div style="display:flex;align-items:center;gap:6px;font-size:1.4rem;color:var(--DARK)">
-        <span style="color:var(--MEDIUM)">Save file</span>
-        <span style="margin-left:auto;display:flex;gap:4px"><kbd>⌘</kbd><kbd>S</kbd></span>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px;font-size:1.4rem;color:var(--DARK)">
-        <span style="color:var(--MEDIUM)">Command palette</span>
-        <span style="margin-left:auto;display:flex;gap:4px"><kbd>⌘</kbd><kbd>K</kbd></span>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px;font-size:1.4rem;color:var(--DARK)">
-        <span style="color:var(--MEDIUM)">Find in files</span>
-        <span style="margin-left:auto;display:flex;gap:4px"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>F</kbd></span>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px;font-size:1.4rem;color:var(--DARK)">
-        <span style="color:var(--MEDIUM)">Close modal</span>
-        <span style="margin-left:auto"><kbd>Escape</kbd></span>
-      </div>
-      <hr style="border:none;border-top:1px solid var(--LIGHT)">
-      <div class="demo-row">
-        <kbd>⌘</kbd><kbd>⌥</kbd><kbd>I</kbd>
-        <span style="color:var(--MEDIUM);font-size:1.3rem">or</span>
-        <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>I</kbd>
-        <span style="color:var(--MEDIUM);font-size:1.3rem">— DevTools</span>
-      </div>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;kbd&gt;</span>⌘<span class="tg">&lt;/kbd&gt;&lt;kbd&gt;</span>S<span class="tg">&lt;/kbd&gt;</span>
-
-<span class="kw">/* В таблице шорткатов */</span>
-<span class="tg">&lt;div</span> <span class="at">style</span>=<span class="vl">"display:flex;align-items:center"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;span&gt;</span>Save<span class="tg">&lt;/span&gt;</span>
-  <span class="tg">&lt;span</span> <span class="at">style</span>=<span class="vl">"margin-left:auto;display:flex;gap:4px"</span><span class="tg">&gt;</span>
-    <span class="tg">&lt;kbd&gt;</span>⌘<span class="tg">&lt;/kbd&gt;&lt;kbd&gt;</span>S<span class="tg">&lt;/kbd&gt;</span>
-  <span class="tg">&lt;/span&gt;</span>
-<span class="tg">&lt;/div&gt;</span></div>
-</section>
-
-<!-- Spinner -->
-<section id="spinner" class="sc">
-  <h2 class="sc-title">Spinner</h2>
-  <p class="sc-desc">CSS-анимация. Типичный кейс — вставить внутрь кнопки во время загрузки.</p>
-  <div class="demo">
-    <div class="demo-row" style="align-items:center;margin-bottom:20px">
-      <div class="spinner spinner-sm"></div>
-      <div class="spinner"></div>
-      <div class="spinner spinner-lg"></div>
-      <div class="spinner" style="border-top-color:var(--BLUE)"></div>
-      <div class="spinner" style="border-top-color:var(--ORANGE)"></div>
-    </div>
-    <div class="demo-row">
-      <button class="btn btn-primary" disabled>
-        <div class="spinner spinner-sm" style="border-color:rgba(255,255,255,.3);border-top-color:var(--WHITE)"></div>
-        Saving…
-      </button>
-      <button class="btn btn-default" disabled>
-        <div class="spinner spinner-sm"></div>
-        Loading
-      </button>
-    </div>
-  </div>
-  <div class="snip"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"spinner"</span><span class="tg">&gt;&lt;/div&gt;</span>          <span class="kw">/* default */</span>
-<span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"spinner spinner-sm"</span><span class="tg">&gt;&lt;/div&gt;</span>  <span class="kw">/* small */</span>
-<span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"spinner spinner-lg"</span><span class="tg">&gt;&lt;/div&gt;</span>  <span class="kw">/* large */</span>
-
-<span class="kw">/* Другой цвет — переопределяем border-top-color */</span>
-<span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"spinner"</span> <span class="at">style</span>=<span class="vl">"border-top-color:var(--BLUE)"</span><span class="tg">&gt;&lt;/div&gt;</span>
-
-<span class="kw">/* Внутри кнопки */</span>
-<span class="tg">&lt;button</span> <span class="at">class</span>=<span class="vl">"btn btn-primary"</span> <span class="at">disabled</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="vl">"spinner spinner-sm"</span>
-       <span class="at">style</span>=<span class="vl">"border-color:rgba(255,255,255,.3);border-top-color:#fff"</span><span class="tg">&gt;&lt;/div&gt;</span>
-  Saving…
-<span class="tg">&lt;/button&gt;</span></div>
-</section>
-
-<!-- Divider -->
-<section id="divider" class="sc">
-  <h2 class="sc-title">Divider <span class="sc-origin">owo</span></h2>
-  <p class="sc-desc">Два варианта из owo: простой <code>&lt;hr&gt;</code> и с подписью через <code>.hr_fieldset</code>.</p>
-  <div class="demo" style="font-size:1rem">
-    <div class="demo-col" style="gap:8px">
-      <!-- с подписью -->
-      <fieldset class="hr_fieldset"><legend><h6>section title</h6></legend></fieldset>
-      <!-- просто hr -->
-      <hr>
-    </div>
-  </div>
-  <div class="snip"><span class="kw">/* С подписью (owo: fieldset + legend) */</span>
-<span class="tg">&lt;fieldset</span> <span class="at">class</span>=<span class="vl">"hr_fieldset"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;legend&gt;&lt;h6&gt;</span>section title<span class="tg">&lt;/h6&gt;&lt;/legend&gt;</span>
-<span class="tg">&lt;/fieldset&gt;</span>
-
-<span class="kw">/* Просто разделитель */</span>
-<span class="tg">&lt;hr&gt;</span></div>
-</section>
-
-</div>
-</main>
-
-<script>
-  // Sidebar active tracking
-  const sections = Array.from(document.querySelectorAll('[id]'));
-  const links    = Array.from(document.querySelectorAll('.sb-link'));
-
-  links.forEach(link => {
-    link.addEventListener('click', () => {
-      const el = document.getElementById(link.dataset.t);
-      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 60, behavior: 'smooth' });
-    });
-  });
-
-  function updateActive() {
-    let current = '';
-    sections.forEach(s => { if (s.getBoundingClientRect().top <= 80) current = s.id; });
-    links.forEach(l => l.classList.toggle('active', l.dataset.t === current));
-  }
-
-  window.addEventListener('scroll', updateActive, { passive: true });
-  updateActive();
-
-  // Tabs
-  document.getElementById('demo-tabs').addEventListener('click', e => {
-    const btn = e.target.closest('.tab-item');
-    if (!btn) return;
-    document.querySelectorAll('#demo-tabs .tab-item').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-  });
-</script>
 </body>
 </html>

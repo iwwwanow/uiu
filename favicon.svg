@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- white base -->
-  <rect width="32" height="32" fill="#fff"/>
-  <!-- 3 grid columns — owo grid concept, third = RED accent -->
-  <rect x="3"    y="4" width="7" height="24" fill="#000"/>
-  <rect x="12.5" y="4" width="7" height="24" fill="#000"/>
-  <rect x="22"   y="4" width="7" height="24" fill="#ff115c"/>
-</svg>

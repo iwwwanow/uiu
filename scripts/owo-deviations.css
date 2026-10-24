@@ -1,0 +1,17 @@
+/* =====================================================
+   DEVIATIONS FROM OWO
+   Everything below differs from the original owo styles.
+   Each rule references the owo backlog note that describes it.
+   ===================================================== */
+
+/* code: owo sets font-size: 1.6em, which compounds inside p / h*
+   (inline code becomes 25.6px in a p). Size lives on pre instead,
+   code follows its parent.
+   owo: docs/backlog/2026-10-24_code-font-size-compounds.md */
+pre {
+  font-size: 1.6rem;
+}
+
+code {
+  font-size: 1em;
+}
