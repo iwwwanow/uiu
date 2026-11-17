@@ -68,3 +68,49 @@ vhs (charmbracelet) проигрывает терминальную сессию
 4. nvim: `Uiu*`-группы, `winhighlight`, `winborder`, `NormalNC`.
 5. zellij, затем base16-выход для lazygit, fzf, delta.
 6. `theme.tape` для vhs.
+
+## Решения 2026-11-17
+
+Этот раздел отменяет пункт 1 порядка выше: никаких `tokens.json` и `roles.json`.
+
+**Инструментарий.** Figma не используем. Превью — `terminal.html` и превью отдельных программ в uiu, все цвета берутся из внешних CSS через переменные. Правки идут в Chrome DevTools с Workspaces: правки в Styles для внешних `.css` сохраняются на диск. Итерации обсуждаем по `git diff`. Статику отдаёт сервис `preview` в `docker-compose.yml` (nginx, репо смонтирован только на чтение). Сначала светлая тема, тёмная потом получается инверсией шкалы. Генератор — `docs/backlog/2026-11-17_theme-generator-package.md`.
+
+**Источник правды — CSS в `theme/` uiu.** В `index.css` его не подключаем, пока палитру не утвердим. Связь со старыми токенами owo — `docs/backlog/2026-11-17_unify-gray-scale-owo-tokens.md`.
+
+**Имена примитивов: число = OKLCH L×100, верхний регистр, как в owo.**
+
+```css
+--GRAY-100: #fff;      /* = --WHITE */
+--GRAY-98 … --GRAY-94  /* новые ступени поверхностей */
+--GRAY-91: #e0e0e0;    /* = --LIGHT  (L 0.907) */
+--GRAY-72: #a4a4a4;    /* = --MEDIUM (L 0.719) */
+--GRAY-44: #535353;    /* = --DARK   (L 0.442) */
+--GRAY-28: #292929;    /* новый, из старой палитры: основной текст в терминале */
+--GRAY-0:  #000;       /* = --BLACK */
+--BLUE: #009bff;  --BLUE-NN …   /* акценты: базовое имя owo + ступени по L */
+```
+
+В имени L округлён, значение остаётся точным hex. Тёмная тема — инверсия ступеней (N → 100−N), роли не меняются. Роли — второй слой, в нижнем регистре: `--surface-*`, `--border-*`, `--text-*`, `--state-*`, `--accent-*`.
+
+**Акценты.** RED, GREEN, BLUE, BLUE-DARK, ORANGE из owo плюс **MAGENTA #ff00ff** из старой палитры (нужен для `NonText` в nvim). У каждого три ступени:
+- тёмная (L≈45–55) — текст на светлом фоне, ANSI normal;
+- базовая (цвет owo) — ANSI bright, маркеры, рамки;
+- светлая (L≈95) — подложки: фоны diff-строк, поиск, выделение. В ANSI не входит, используется только в программах с truecolor.
+
+Ступени, которые выходят за пределы sRGB, генератор подрезает по насыщенности, сохраняя оттенок. ANSI: yellow → ORANGE, cyan → BLUE, blue → BLUE-DARK, magenta → MAGENTA.
+
+**Синтаксис кода серый**, как в нынешнем monochrome.nvim. Цвет несут только состояния:
+
+| Роль | Цвет | nvim |
+|---|---|---|
+| `--state-added` | GREEN | `Added`, `DiffAdd`, gitsigns |
+| `--state-changed` | BLUE | `Changed`, `DiffChange` |
+| `--state-removed` | RED | `Removed`, `DiffDelete`, `DiagnosticError` |
+| `--state-warning` | ORANGE (только warning) | `DiagnosticWarn` |
+| `--state-info` | BLUE | `DiagnosticInfo` |
+| `--state-hint` | GRAY-72 | `DiagnosticHint` |
+| `--marker-invisible` | MAGENTA (больше нигде) | `NonText`, `Whitespace` |
+
+Плагины в основном ссылаются через `link` на стандартные группы. Те, что задают цвет сами, перебиваем в слое `Uiu*`.
+
+**Поправка к диагнозу в начале заметки.** Активная тема nvim — `monochrome.nvim` (coolgray) плюс `NonText = #FF00FF` (`~/.config/nvim/lua/plugins/init.lua:8`). Палитра из 16 серых в `lua/plugins/theme/` нигде не подключается. Поломки float и cursorline нужно перепроверить на monochrome.
