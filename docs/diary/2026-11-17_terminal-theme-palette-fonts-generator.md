@@ -1,6 +1,6 @@
 # 2026-11-17 — единая тема терминала: палитра, шрифт, генератор, ghostty и waybar
 
-Большая сессия по теме для терминала, TUI и nvim из токенов uiu (идея — `docs/backlog/2026-10-30_terminal-themes-levels-oklch.md`). Договорились об инструментах и именах, собрали шкалу и роли, превью экрана, воспроизводимую сборку шрифта, генератор конфигов. На теме uiu: ghostty, waybar, nvim, zellij, delta; bat и btop — через ANSI-палитру; есть выходы base16 и vhs. Ветка `feat/terminal-theme` влита в master, дальше работа шла прямо в master (запушен, последний коммит `9636280`). Тестов генератора — 88, все проходят.
+Большая сессия по теме для терминала, TUI и nvim из токенов uiu (идея — `docs/backlog/2026-10-30_terminal-themes-levels-oklch.md`). Договорились об инструментах и именах, собрали шкалу и роли, превью экрана, воспроизводимую сборку шрифта, генератор конфигов. На теме uiu: ghostty, waybar, nvim, zellij, delta, tofi, dunst; bat и btop — через ANSI-палитру; есть выходы base16 и vhs. Ветка `feat/terminal-theme` влита в master, дальше работа шла прямо в master (запушен, последний коммит `9636280`). Тестов генератора — 96, все проходят.
 
 ## Ключевые решения
 
@@ -70,6 +70,12 @@
 
 - Пользователь поставил `git-delta` 0.20.1 и `vhs` 0.12.1. delta: выход `themes/delta/uiu.gitconfig` — подложки строк `state-*-bg`, изменённые слова — `state-*` на той же подложке (как `GitSigns*Inline` в nvim), синтаксис — ANSI (`syntax-theme = ansi`); в dotfiles `.gitconfig`: `[include] path = ~/.local/share/uiu/delta/uiu.gitconfig` (без файла git include молча пропускает), `core.pager = delta`, `interactive.diffFilter = delta --color-only`, `delta.paging = never` (раньше было `pager = cat` — без пейджера и осталось). Проверено скриншотом настоящего диффа. Значения с `#` в gitconfig — только в кавычках. `git config --global --get` include не читает (нужен `--includes`), обычный `git config` — читает.
 - vhs: выход `themes/vhs/uiu.tape` — `Set Theme {…}` (xterm.js) и `Set FontFamily '"IosevkaTermSS 14 Nerd Font"'`. Грабли: `Source` не раскрывает `~` — только абсолютный путь в кавычках; имя шрифта для Chromium — по fontconfig (с пробелом, не `IosevkaTermSS14`), vhs вставляет его в JS в одинарных кавычках, а в CSS имя с «14» без кавычек недопустимо — поэтому внутри двойные. xterm.js рисует жирный яркими цветами (в ghostty `bold-is-bright` выключен) — ветки в `git log` выходят базовыми owo, на белом плохо. Тест — `vhs validate`. Пробная запись прошла (Chromium vhs скачивает сам).
+
+## tofi и dunst (шестая часть)
+
+- Лаунчер (`$mod+o`, cliphist, пароли) — tofi 0.9.1, уведомления — dunst 1.13.2. Это окна Wayland, ANSI-палитра терминала их не касается — нужны hex в их конфигах. Выходы `themes/tofi/uiu.conf` и `themes/dunst/uiu.conf` (только цвета). tofi — уровень overlay, как Telescope: фон `surface-overlay`, рамка 1px `border-strong`, выбор — `text-strong` на GRAY-91 плашкой (`selection-background-padding = 0, 8`), совпадения — `accent-match`. dunst — overlay с рамкой 1px, низкий приоритет — `text-muted`, критические — белым по `state-error`, прогресс — `accent-interactive`. Шрифт tofi (cormorant 24) пользователь оставил — «прикольный, выделяется»; у dunst — SS14.
+- Подключение в dotfiles — симлинки на `~/.local/share/uiu/…`: `.config/tofi/uiu.conf` + `include = uiu.conf` первой строкой; `.config/dunst/dunstrc.d/uiu.conf`. Hex из dotfiles убраны. Проверено скриншотами.
+- Грабли: tofi `include` считает путь от каталога конфига, `~` не раскрывает; `~/.config/tofi` — симлинк stow на каталог, поэтому `../../.local/…` вёл бы внутрь dotfiles — отсюда симлинк рядом. Без файла tofi пишет ошибку и работает со своими цветами; dunst на висячий drop-in — предупреждение. tofi проверяет конфиг до подключения к Wayland — тест запускает его с несуществующим `WAYLAND_DISPLAY` и ищет `line N:` в stderr. В `selection-background-padding` значение `-1` (во всю ширину) не работает — только у устаревшего `selection-padding`.
 
 ## Подводные камни
 

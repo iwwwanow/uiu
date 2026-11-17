@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { mkdtemp, rm } from "node:fs/promises";
 import { loadTheme, REPO_ROOT } from "../src/theme";
+import { contrast } from "../src/color";
 import { TARGETS } from "../src/targets";
 import { ghostty } from "../src/targets/ghostty";
 import { gtkName, waybar } from "../src/targets/waybar";
@@ -12,6 +13,8 @@ import { COMPONENTS, zellij } from "../src/targets/zellij";
 import { base16, SLOTS } from "../src/targets/base16";
 import { delta } from "../src/targets/delta";
 import { FONT_FAMILY, vhs } from "../src/targets/vhs";
+import { OPTIONS, tofi } from "../src/targets/tofi";
+import { dunst, SECTIONS } from "../src/targets/dunst";
 
 const t = await loadTheme();
 
@@ -205,5 +208,50 @@ describe("vhs", () => {
     } finally {
       await rm(dir, { recursive: true });
     }
+  });
+});
+
+describe("tofi", () => {
+  const out = tofi(t);
+
+  test("snapshot", () => expect(out).toMatchSnapshot());
+
+  test("every option is a known tofi color with a hex value", () => {
+    const lines = out.split("\n").filter((l) => l && !l.startsWith("#"));
+    expect(lines.length).toBe(OPTIONS.length);
+    for (const l of lines) expect(l).toMatch(/^[a-z-]+(color|background) = #[0-9a-f]{6}$/);
+  });
+
+  // tofi проверяет опции до подключения к Wayland: с несуществующим дисплеем окно не
+  // открывается, а неизвестный ключ или цвет — строка «line N: …» в stderr
+  test.skipIf(!Bun.which("tofi"))("tofi parses it without errors", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "uiu-tofi-"));
+    try {
+      await Bun.write(join(dir, "config"), out);
+      const p = Bun.spawnSync(["tofi", "-c", join(dir, "config")], {
+        stdin: "ignore",
+        env: { ...process.env, WAYLAND_DISPLAY: "uiu-test-none" },
+      });
+      const err = p.stderr.toString();
+      expect(err).toContain("Couldn't connect to Wayland display");
+      expect(err).not.toMatch(/line \d+:/);
+    } finally {
+      await rm(dir, { recursive: true });
+    }
+  });
+});
+
+describe("dunst", () => {
+  const out = dunst(t);
+
+  test("snapshot", () => expect(out).toMatchSnapshot());
+
+  test("sections and quoted hex colors", () => {
+    expect(out.match(/^\[[a-z_]+\]$/gm)).toEqual(Object.keys(SECTIONS).map((s) => `[${s}]`));
+    for (const l of out.split("\n").filter((l) => l.startsWith("    "))) expect(l).toMatch(/^ {4}[a-z_]+ = "#[0-9a-f]{6}"$/);
+  });
+
+  test("critical is readable: text-on-accent on state-error ≥ 4.5", () => {
+    expect(contrast(t.role("text-on-accent").rgb, t.role("state-error").rgb)).toBeGreaterThanOrEqual(4.5);
   });
 });
