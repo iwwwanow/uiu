@@ -1,5 +1,10 @@
 {
   "name": "iwwwanow-uiu",
   "private": true,
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "scripts": {
+    "theme:build": "pnpm --filter theme-gen build",
+    "theme:check": "pnpm --filter theme-gen check",
+    "theme:test": "pnpm --filter theme-gen test"
+  }
 }
