@@ -46,6 +46,7 @@
 - Решения по ходу: `NormalNC` — sunken; Telescope — уровень overlay (`NormalFloat`, `FloatBorder`, выбор как `PmenuSel`); staged-знаки gitsigns — серым (`state-hint`): gitsigns смешивает их из обычных знаков в цвета вне палитры, а светлых ступеней акцентов с нормальным контрастом нет; `LspInlayHint`, `LspCodeLens`, blame, счётчик Telescope, `ComplHint` по умолчанию ссылались на `NonText` — перекрыты, MAGENTA остался только у конца строки; `DiagnosticUnderline*` — undercurl; `MatchParen` — подчёркивание и `text-strong`; `DevIconDefault` — `accent-interactive`.
 - todo-comments пересчитывает `TodoFg/Bg/Sign*` из `Diagnostic*`/`Identifier` по `ColorScheme`, тема их не задаёт. cmp ставит `CmpItem*Default` без `default = true` — перекрываем группы над ними.
 - Тесты (70, все проходят): после ссылок каждая группа (встроенные + `PLUGIN_GROUPS`) заканчивается цветом темы; `marker-invisible` только у `NonText`; ссылки темы ведут на известные группы; нет жирного; снапшот; `colorscheme uiu` в `nvim --clean --headless` без ошибок и все hex — из ролей; `data/nvim-builtin.json` совпадает с установленным nvim (упадёт при обновлении nvim — перезапустить снимок и смотреть diff).
+- Подключено в dotfiles (`iwwwanow/uiu` с `dir` на локальный клон, если он есть), `monochrome.nvim` и override `NonText` убраны, ветка влита в master. Иконки — `accent-interactive` (#009bff): devicons сам ставит `DevIconDefault = #6d8086` при setup и на каждый `ColorScheme`, тема его не перебивает, поэтому в dotfiles после setup — `set_default_icon(d.icon, require("uiu").colors.accent_interactive, …)`; override `#0000FF` убран.
 - Живая проверка с плагинами пользователя (без monochrome, тема через `dir`): чужой цвет один — `DevIconDefault = #0000ff` из override в dotfiles; Todo* и lualine_* в палитре.
 
 ## Подводные камни
@@ -65,7 +66,7 @@
 
 ## Остаток
 
-- **nvim.** Тема готова, но не подключена: в dotfiles заменить `monochrome.nvim` на `{ dir = "~/Projects/iwwwanow_uiu", name = "uiu", lazy = false, priority = 1000, config = function() vim.cmd.colorscheme("uiu") end }` (или `"iwwwanow/uiu"` после влития), убрать override `NonText` и, по желанию, `DevIconDefault = #0000FF`. Посмотреть вживую: рамку overlay, `NormalNC` sunken, серые staged-знаки.
+- **nvim.** Подключено; посмотреть вживую: рамку overlay, `NormalNC` sunken, серые staged-знаки. `:Lazy clean` уберёт monochrome.
 - zellij (тема в `~/.local/share/uiu/zellij/`), base16-выход для lazygit, fzf, delta, bat, btop, `theme.tape` для vhs.
 - Шаг bootstrap `NN_uiu.sh` в dotfiles. Защита waybar от отсутствующего `colors.css`.
 - Открытый вопрос к пользователю: «в nvim по максимуму используем разные начертания» — сделано по его скриншоту (тон + курсив), ответа, хочет ли больше начертаний, нет.

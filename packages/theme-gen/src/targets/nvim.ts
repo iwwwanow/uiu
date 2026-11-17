@@ -165,7 +165,9 @@ export const GROUPS: Record<string, Spec> = {
   CmpItemKind: faint,
   CmpItemKindIcon: faint,
   CmpItemMenu: faint,
-  // nvim-web-devicons с color_icons = false — все иконки этим цветом
+  // nvim-web-devicons с color_icons = false — все иконки этим цветом. Сам devicons при setup
+  // и на ColorScheme ставит свой #6d8086 поверх темы: в его конфиге нужен
+  // set_default_icon(…, require("uiu").colors.accent_interactive) — так в dotfiles
   DevIconDefault: { fg: "accent-interactive" },
   // gitsigns: Staged* он смешивает из обычных знаков (не цвета палитры) — staged серым
   GitSignsCurrentLineBlame: { fg: "text-disabled" },

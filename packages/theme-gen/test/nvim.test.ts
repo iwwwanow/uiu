@@ -33,7 +33,7 @@ const PLUGIN_GROUPS: Record<string, Def> = {
   CmpItemAbbrDeprecatedDefault: FOREIGN,
   CmpItemAbbrMatch: { link: "CmpItemAbbrMatchDefault" },
   CmpItemAbbrMatchDefault: {},
-  // nvim-web-devicons: цвет задаёт конфиг пользователя
+  // nvim-web-devicons: свой #6d8086 при setup и ColorScheme (в dotfiles — set_default_icon с ролью)
   DevIconDefault: FOREIGN,
   // gitsigns: Staged* — смесь цветов обычных знаков
   ...Object.fromEntries(
