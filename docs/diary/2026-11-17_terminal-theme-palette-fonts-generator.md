@@ -46,8 +46,15 @@
 - Решения по ходу: `NormalNC` — sunken; Telescope — уровень overlay (`NormalFloat`, `FloatBorder`, выбор как `PmenuSel`); staged-знаки gitsigns — серым (`state-hint`): gitsigns смешивает их из обычных знаков в цвета вне палитры, а светлых ступеней акцентов с нормальным контрастом нет; `LspInlayHint`, `LspCodeLens`, blame, счётчик Telescope, `ComplHint` по умолчанию ссылались на `NonText` — перекрыты, MAGENTA остался только у конца строки; `DiagnosticUnderline*` — undercurl; `MatchParen` — подчёркивание и `text-strong`; `DevIconDefault` — `accent-interactive`.
 - todo-comments пересчитывает `TodoFg/Bg/Sign*` из `Diagnostic*`/`Identifier` по `ColorScheme`, тема их не задаёт. cmp ставит `CmpItem*Default` без `default = true` — перекрываем группы над ними.
 - Тесты (70, все проходят): после ссылок каждая группа (встроенные + `PLUGIN_GROUPS`) заканчивается цветом темы; `marker-invisible` только у `NonText`; ссылки темы ведут на известные группы; нет жирного; снапшот; `colorscheme uiu` в `nvim --clean --headless` без ошибок и все hex — из ролей; `data/nvim-builtin.json` совпадает с установленным nvim (упадёт при обновлении nvim — перезапустить снимок и смотреть diff).
-- Подключено в dotfiles (`iwwwanow/uiu` с `dir` на локальный клон, если он есть), `monochrome.nvim` и override `NonText` убраны, ветка влита в master. Иконки — `accent-interactive` (#009bff): devicons сам ставит `DevIconDefault = #6d8086` при setup и на каждый `ColorScheme`, тема его не перебивает, поэтому в dotfiles после setup — `set_default_icon(d.icon, require("uiu").colors.accent_interactive, …)`; override `#0000FF` убран.
+- Подключено в dotfiles обычной спекой `"iwwwanow/uiu"` с GitHub (вариант с `dir` на локальный клон пользователь отверг; для разработки при нужде — `dev` в lazy), правки палитры видны после пуша и `:Lazy update`; `monochrome.nvim` и override `NonText` убраны, ветка влита в master. Иконки — `accent-interactive` (#009bff): devicons сам ставит `DevIconDefault = #6d8086` при setup и на каждый `ColorScheme`, тема его не перебивает, поэтому в dotfiles после setup — `set_default_icon(d.icon, require("uiu").colors.accent_interactive, …)`; override `#0000FF` убран.
 - Живая проверка с плагинами пользователя (без monochrome, тема через `dir`): чужой цвет один — `DevIconDefault = #0000ff` из override в dotfiles; Todo* и lualine_* в палитре.
+
+## zellij (третья часть)
+
+- Формат тем 0.42+ взят из встроенной `pencil-light` (исходник KDL лежит строкой в бинарнике zellij 0.46): компоненты `text_*`, `ribbon_*`, `table_*`, `list_*`, `frame_*`, `exit_code_*` с base/background/emphasis_0…3, `multiplayer_user_colors`, `terminal_colors`. Выход `src/targets/zellij.ts` → `themes/zellij/uiu.kdl`, `install.sh` ставит в `~/.local/share/uiu/zellij/`.
+- Разметка как на превью: бары chrome, активная вкладка и режим — `accent-interactive`, остальные плашки (вкладки, клавиши режимов) — `text-on-accent` на `text-muted`, рамка фокуса `border-strong`. Проверено скриншотами отдельной сессии `uiu-preview` (копия конфига, свой `--config-dir`; `main` не трогали). Правки по снимкам: рамка неактивной панели `border-subtle` → `text-disabled` (zellij красит линию и заголовок одним base, на GRAY-91 заголовок не читался); `emphasis_3` — клавиши (`Ctrl g`, `<ENTER>`), было ORANGE-50 → `text-strong`. По снимкам: `emphasis_0` — модификатор «Alt +», `emphasis_2` — счётчики Inbox.
+- Тесты (75): снапшот, набор компонентов = встроенным темам (zellij опечатки в ключах молча пропускает), все цвета — тройки «r g b», `zellij setup --check` (ловит только синтаксис KDL в `theme_dir`, не неизвестную тему).
+- Подключение в dotfiles не сделано (не подтверждено). Выяснено: `theme_dir` не раскрывает `~` и `$HOME`; на несуществующий `theme_dir` zellij не стартует вовсе («Command Failed»). Висячий симлинк вместо стандартного каталога тем (`~/.config/zellij/themes`) и неизвестное имя темы — zellij стартует со встроенной темой. Предложение: симлинк `.config/zellij/themes` → `/home/operator/.local/share/uiu/zellij` в dotfiles + `theme "uiu"`; `main` подхватит после `kill-session` + `delete-session`.
 
 ## Подводные камни
 
@@ -67,7 +74,7 @@
 ## Остаток
 
 - **nvim.** Подключено; посмотреть вживую: рамку overlay, `NormalNC` sunken, серые staged-знаки. `:Lazy clean` уберёт monochrome.
-- zellij (тема в `~/.local/share/uiu/zellij/`), base16-выход для lazygit, fzf, delta, bat, btop, `theme.tape` для vhs.
+- zellij: тема готова, подключить в dotfiles (см. раздел zellij) и перезапустить `main`. base16-выход для lazygit, fzf, delta, bat, btop, `theme.tape` для vhs.
 - Шаг bootstrap `NN_uiu.sh` в dotfiles. Защита waybar от отсутствующего `colors.css`.
 - Открытый вопрос к пользователю: «в nvim по максимуму используем разные начертания» — сделано по его скриншоту (тон + курсив), ответа, хочет ли больше начертаний, нет.
 - Решить по рамке overlay после пробы в настоящем nvim.

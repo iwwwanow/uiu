@@ -2,6 +2,7 @@
 # Ставит тему uiu в постоянное место по XDG, на которое ссылаются dotfiles:
 #   ~/.local/share/uiu/ghostty/uiu.conf    ← themes/ghostty/uiu.conf
 #   ~/.local/share/uiu/waybar/colors.css   ← themes/waybar/colors.css
+#   ~/.local/share/uiu/zellij/uiu.kdl      ← themes/zellij/uiu.kdl
 #   ~/.local/share/fonts/uiu/              ← assets/fonts (scripts/install-fonts.sh)
 # Место — вне каталогов stow: файлы, записанные в ~/.config/<tool>/, попали бы
 # в репо dotfiles и в git-sync.
@@ -28,6 +29,7 @@ done
 FILES=(
   "ghostty/uiu.conf"
   "waybar/colors.css"
+  "zellij/uiu.kdl"
 )
 
 for rel in "${FILES[@]}"; do

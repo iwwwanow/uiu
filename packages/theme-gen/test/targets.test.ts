@@ -8,6 +8,7 @@ import { loadTheme, REPO_ROOT } from "../src/theme";
 import { TARGETS } from "../src/targets";
 import { ghostty } from "../src/targets/ghostty";
 import { gtkName, waybar } from "../src/targets/waybar";
+import { COMPONENTS, zellij } from "../src/targets/zellij";
 
 const t = await loadTheme();
 
@@ -78,4 +79,43 @@ describe("committed outputs are up to date", () => {
       expect(await file.text()).toBe(render(t));
     });
   }
+});
+
+describe("zellij", () => {
+  const out = zellij(t);
+
+  test("snapshot", () => expect(out).toMatchSnapshot());
+
+  // компоненты встроенных тем zellij 0.46 (pencil-light и др.; frame_unselected — у части тем).
+  // zellij не ругается на опечатки в именах, поэтому сверяем сами
+  test("components match zellij 0.42+ theme spec", () => {
+    expect(Object.keys(COMPONENTS).sort()).toEqual(
+      [
+        "text_unselected", "text_selected", "ribbon_selected", "ribbon_unselected", "ribbon_hover",
+        "table_title", "table_cell_selected", "table_cell_unselected", "list_selected", "list_unselected",
+        "frame_selected", "frame_unselected", "frame_highlight", "exit_code_success", "exit_code_error",
+      ].sort(),
+    );
+  });
+
+  test("every color is an «r g b» triple", () => {
+    const colors = out.split("\n").filter((l) => /^\s+(base|background|emphasis_\d|player_\d+|(bright_)?[a-z]+) \d/.test(l));
+    expect(colors.length).toBe(15 * 6 + 10 + 16);
+    for (const l of colors) expect(l).toMatch(/^\s+\w+ \d{1,3} \d{1,3} \d{1,3}$/);
+  });
+
+  // zellij setup --check разбирает KDL файлов из theme_dir (имена ключей не проверяет)
+  test.skipIf(!Bun.which("zellij"))("zellij setup --check parses it", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "uiu-zellij-"));
+    try {
+      await Bun.write(join(dir, "themes/uiu.kdl"), out);
+      await Bun.write(join(dir, "config.kdl"), `theme "uiu"\ntheme_dir "${join(dir, "themes")}"\n`);
+      const p = Bun.spawnSync(["zellij", "--config-dir", dir, "--config", join(dir, "config.kdl"), "setup", "--check"]);
+      const text = p.stdout.toString() + p.stderr.toString();
+      expect(text).toContain("[CONFIG FILE]: Well defined.");
+      expect(text).not.toMatch(/error/i);
+    } finally {
+      await rm(dir, { recursive: true });
+    }
+  });
 });
