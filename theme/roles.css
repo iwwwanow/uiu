@@ -40,14 +40,18 @@
   --text-disabled: var(--GRAY-72);
   --text-on-accent: var(--GRAY-100);
 
-  /* --- синтаксис: серый, различие — светлотой и начертанием --- */
-  --syntax-keyword: var(--GRAY-0);    /* + bold */
-  --syntax-function: var(--GRAY-0);
+  /* --- синтаксис: цвет по минимуму, как в нынешнем monochrome.nvim.
+     Два тона: служебное (ключевые слова, типы, комментарии) — светлым,
+     содержательное (имена, вызовы, строки) — тёмным. Комментарии — курсив.
+     Жирного в коде нет. --- */
+  --syntax-keyword: var(--GRAY-72);
+  --syntax-type: var(--GRAY-72);
+  --syntax-comment: var(--GRAY-72);   /* + italic */
+  --syntax-function: var(--GRAY-28);
   --syntax-variable: var(--GRAY-28);
-  --syntax-string: var(--GRAY-44);
-  --syntax-constant: var(--GRAY-44);
-  --syntax-punctuation: var(--GRAY-58);
-  --syntax-comment: var(--GRAY-58);   /* + italic */
+  --syntax-string: var(--GRAY-28);
+  --syntax-constant: var(--GRAY-28);
+  --syntax-punctuation: var(--GRAY-28);
 
   /* --- выделение и поиск --- */
   --accent-selection: var(--BLUE-95);       /* Visual */
@@ -72,26 +76,31 @@
   --state-info-bg: var(--BLUE-95);
   --state-hint: var(--GRAY-72);
 
-  /* --- невидимые символы: MAGENTA и больше нигде --- */
+  /* --- невидимые символы: конец строки (NonText) — MAGENTA и больше нигде,
+     отступы (Whitespace, leadmultispace) — светло-серым --- */
   --marker-invisible: var(--MAGENTA);
+  --marker-whitespace: var(--GRAY-85);
 
-  /* --- ANSI 16 (ghostty palette): normal — тёмная ступень, bright — база owo.
-     yellow → ORANGE, cyan → BLUE, blue → BLUE-DARK. На светлом фоне
-     black/white — серые: black читается как текст, white — как фон. --- */
+  /* --- ANSI 16 (ghostty palette). Цвет — только у состояний, как в nvim:
+     red — ошибка, green — успех, yellow → ORANGE — предупреждение.
+     blue / cyan / magenta — серые: каталоги, prompt и т.п. выделяются
+     тоном и жирным (его ставит сама программа), а не цветом.
+     bright = normal, кроме black/white — яркие варианты на белом
+     фоне только хуже читаются. --- */
   --ansi-black: var(--GRAY-28);
   --ansi-red: var(--RED-50);
   --ansi-green: var(--GREEN-50);
   --ansi-yellow: var(--ORANGE-50);
-  --ansi-blue: var(--BLUE-DARK);
-  --ansi-magenta: var(--MAGENTA-50);
-  --ansi-cyan: var(--BLUE-50);
+  --ansi-blue: var(--GRAY-0);
+  --ansi-magenta: var(--GRAY-44);
+  --ansi-cyan: var(--GRAY-44);
   --ansi-white: var(--GRAY-85);
   --ansi-bright-black: var(--GRAY-58);
-  --ansi-bright-red: var(--RED);
-  --ansi-bright-green: var(--GREEN);
-  --ansi-bright-yellow: var(--ORANGE);
-  --ansi-bright-blue: var(--BLUE-DARK);
-  --ansi-bright-magenta: var(--MAGENTA);
-  --ansi-bright-cyan: var(--BLUE);
+  --ansi-bright-red: var(--RED-50);
+  --ansi-bright-green: var(--GREEN-50);
+  --ansi-bright-yellow: var(--ORANGE-50);
+  --ansi-bright-blue: var(--GRAY-0);
+  --ansi-bright-magenta: var(--GRAY-44);
+  --ansi-bright-cyan: var(--GRAY-44);
   --ansi-bright-white: var(--GRAY-100);
 }

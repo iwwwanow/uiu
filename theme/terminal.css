@@ -42,21 +42,38 @@
 /* --- zellij --- */
 .zj-tabs { display: flex; background: var(--surface-chrome); }
 .zj-tab { padding: 0 1ch; color: var(--text-muted); }
-.zj-tab_active { color: var(--text-strong); background: var(--surface-base); font-weight: 700; }
+.zj-tab_active { color: var(--text-strong); background: var(--surface-base); }
 .zj-session { padding: 0 1ch; color: var(--text-faint); }
 
 .zj-panes { display: flex; }
 
-.pane {
-  position: relative;
-  border: 1px solid var(--border-subtle);
-}
-.pane_focused { border-color: var(--border-strong); }
-.pane_sunken { background: var(--surface-sunken); }
+/* Рамки как в терминале: рамка занимает целую клетку (строку сверху/снизу,
+   колонку слева/справа), а линия идёт по середине клетки — так рисуют
+   box-drawing символы ─│┌┐ в zellij и nvim (winborder = "single").
+   Заголовок лежит на верхней линии. */
+.pane, .float, .modal { --frame: var(--border-subtle); --frame-bg: var(--surface-base); }
+.pane { position: relative; padding: 20px 1ch; background: var(--frame-bg); }
+.pane_focused { --frame: var(--border-strong); }
+.pane_sunken { --frame-bg: var(--surface-sunken); }
 
-/* заголовок панели — строка рамки zellij */
-.pane__title { padding: 0 1ch; color: var(--text-faint); }
-.pane_focused .pane__title { color: var(--text-strong); font-weight: 700; }
+.pane::before, .float::before, .modal::before {
+  content: "";
+  position: absolute;
+  inset: 10px 0.5ch;
+  border: 1px solid var(--frame);
+  pointer-events: none;
+}
+
+.pane__title, .float__title {
+  position: absolute;
+  top: 0;
+  left: 2ch;
+  z-index: 1;
+  padding: 0 1ch;
+  background: var(--frame-bg);
+}
+.pane__title { color: var(--text-faint); }
+.pane_focused .pane__title { color: var(--text-strong); }
 
 .zj-status { display: flex; background: var(--surface-chrome); color: var(--text-muted); }
 .zj-key { padding: 0 1ch; color: var(--text-on-accent); background: var(--text-muted); }
@@ -76,20 +93,22 @@
 .ln__sign { display: inline-block; width: 2ch; }
 .ln__nr { display: inline-block; width: 4ch; text-align: right; padding-right: 1ch; color: var(--text-faint); }
 .ln_cursor { background: var(--surface-base-hover); }
-.ln_cursor .ln__nr { color: var(--text-strong); font-weight: 700; }
-.ln_nontext { color: var(--marker-invisible); }
+.ln_cursor .ln__nr { color: var(--text-strong); }
 
+/* подложки строк — только в diff-режиме; в обычном буфере git — только знак */
 .ln_added { background: var(--state-added-bg); }
 .ln_changed { background: var(--state-changed-bg); }
 .ln_removed { background: var(--state-removed-bg); }
 
 .nv-status { display: flex; background: var(--surface-chrome); color: var(--text-muted); }
-.nv-status__mode { padding: 0 1ch; color: var(--text-on-accent); background: var(--accent-interactive); font-weight: 700; }
+.nv-status__mode { padding: 0 1ch; color: var(--text-on-accent); background: var(--accent-interactive); }
 .nv-status__item { padding: 0 1ch; }
 .nv-cmd { color: var(--text); }
 
 /* --- синтаксис --- */
-.kw { color: var(--syntax-keyword); font-weight: 700; }
+/* синтаксис: два тона серого + курсив у комментариев, без жирного */
+.kw { color: var(--syntax-keyword); }
+.ty { color: var(--syntax-type); }
 .fn { color: var(--syntax-function); }
 .var { color: var(--syntax-variable); }
 .str { color: var(--syntax-string); }
@@ -97,6 +116,7 @@
 .pn { color: var(--syntax-punctuation); }
 .com { color: var(--syntax-comment); font-style: italic; }
 .eol { color: var(--marker-invisible); }
+.ws { color: var(--marker-whitespace); }
 
 .visual { background: var(--accent-selection); }
 .search { background: var(--accent-search); }
@@ -116,24 +136,28 @@
 
 /* --- overlay (2) и modal (3) --- */
 .float {
+  --frame: var(--border-strong);
+  --frame-bg: var(--surface-overlay);
   position: absolute;
-  background: var(--surface-overlay);
-  border: 1px solid var(--border-strong);
+  padding: 20px 1ch;
+  background: var(--frame-bg);
   color: var(--text);
 }
-.float__title { padding: 0 1ch; color: var(--text-strong); font-weight: 700; }
-.float__row { padding: 0 1ch; }
+.float__title { color: var(--text-strong); }
 .float__row_sel { background: var(--accent-menu-selection); color: var(--text-strong); }
 .float__kind { color: var(--text-faint); }
 .float__sep { border-top: 1px solid var(--border-subtle); }
-.match { color: var(--accent-match); font-weight: 700; }
+.match { color: var(--accent-match); }
 
 .modal {
+  --frame: var(--border-modal);
+  --frame-bg: var(--surface-modal);
   position: absolute;
-  background: var(--surface-modal);
-  border: 1px solid var(--border-modal);
+  padding: 20px 1ch;
+  background: var(--frame-bg);
   color: var(--text);
 }
+.modal .float__title { font-weight: 700; }
 
 /* --- shell (ANSI 16) --- */
 .sh-prompt { color: var(--ansi-blue); font-weight: 700; }

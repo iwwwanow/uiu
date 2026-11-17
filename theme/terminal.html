@@ -73,24 +73,24 @@
                 </div>
 
                 <div class="nv-ed">
-                  <div class="ln"><span class="ln__sign"> </span><span class="ln__nr">1</span><span class="com">-- palette → <span class="search">hex</span> для конфигов программ</span><span class="eol">󰘌</span></div>
-                  <div class="ln"><span class="ln__sign"> </span><span class="ln__nr">2</span><span class="kw">local</span> <span class="var">M</span> <span class="pn">=</span> <span class="pn">{}</span><span class="eol">󰘌</span></div>
-                  <div class="ln"><span class="ln__sign"> </span><span class="ln__nr">3</span><span class="eol">󰘌</span></div>
-                  <div class="ln"><span class="ln__sign"> </span><span class="ln__nr">4</span><span class="kw">local function</span> <span class="fn">to_<span class="search">hex</span></span><span class="pn">(</span><span class="var">color</span><span class="pn">)</span><span class="eol">󰘌</span></div>
-                  <div class="ln"><span class="ln__sign st-error">E</span><span class="ln__nr">5</span><span class="eol">. </span><span class="kw">local</span> <span class="var">r</span><span class="pn">,</span> <span class="var">g</span><span class="pn">,</span> <span class="var">b</span> <span class="pn">=</span> <span class="var">oklch</span><span class="pn">.</span><span class="fn">to_rgb</span><span class="pn">(</span><span class="var">color</span><span class="pn">.</span><span class="var">l</span><span class="pn">,</span> <span class="var">color</span><span class="pn">.</span><span class="var">c</span><span class="pn">,</span> <span class="var">color</span><span class="pn">.</span><span class="var">h</span><span class="pn">)</span><span class="eol">󰘌</span>  <span class="st-error">■ undefined global `oklch`</span></div>
-                  <div class="ln"><span class="ln__sign"> </span><span class="ln__nr">6</span><span class="eol">. </span><span class="kw">return</span> <span class="var">string</span><span class="pn">.</span><span class="fn">format</span><span class="pn">(</span><span class="str">"#%02x%02x%02x"</span><span class="pn">,</span> <span class="var">r</span><span class="pn">,</span> <span class="var">g</span><span class="pn">,</span> <span class="var">b</span><span class="pn">)</span><span class="eol">󰘌</span></div>
-                  <div class="ln"><span class="ln__sign"> </span><span class="ln__nr">7</span><span class="kw">end</span><span class="eol">󰘌</span></div>
-                  <div class="ln"><span class="ln__sign"> </span><span class="ln__nr">8</span><span class="eol">󰘌</span></div>
-                  <div class="ln"><span class="ln__sign"> </span><span class="ln__nr">9</span><span class="kw">function</span> <span class="var">M</span><span class="pn">.</span><span class="fn">render</span><span class="pn">(</span><span class="var">colors</span><span class="pn">)</span><span class="eol">󰘌</span></div>
-                  <div class="ln ln_changed"><span class="ln__sign st-changed"> ▎</span><span class="ln__nr">10</span><span class="eol">. </span><span class="kw">local</span> <span class="var">out</span> <span class="pn">=</span> <span class="pn">{}</span><span class="eol">󰘌</span></div>
-                  <div class="ln"><span class="ln__sign st-hint">H▎</span><span class="ln__nr">11</span><span class="eol">. </span><span class="kw">for</span> <span class="var">name</span><span class="pn">,</span> <span class="var">color</span> <span class="kw">in</span> <span class="visual"><span class="fn">pairs</span><span class="pn">(</span><span class="var">colors</span><span class="pn">)</span></span> <span class="kw">do</span><span class="eol">󰘌</span>  <span class="st-hint">■ use ipairs for arrays</span></div>
-                  <div class="ln ln_added ln_cursor"><span class="ln__sign st-added"> ▎</span><span class="ln__nr">12</span><span class="eol">. . </span><span class="var">out</span><span class="pn">[</span><span class="var">name</span><span class="pn">]</span> <span class="pn">=</span> <span class="fn">to_<span class="cursearch">hex</span></span><span class="pn">(</span><span class="var">color</span><span class="cursor">)</span><span class="eol">󰘌</span></div>
-                  <div class="ln ln_removed"><span class="ln__sign st-removed"> ▁</span><span class="ln__nr">13</span><span class="eol">. . </span><span class="var">out</span><span class="pn">[</span><span class="var">name</span><span class="pn">]</span> <span class="pn">=</span> <span class="var">color</span><span class="pn">.</span><span class="search">hex</span><span class="eol">󰘌</span></div>
-                  <div class="ln"><span class="ln__sign"> </span><span class="ln__nr">14</span><span class="eol">. </span><span class="kw">end</span><span class="eol">󰘌</span></div>
-                  <div class="ln"><span class="ln__sign st-warning">W</span><span class="ln__nr">15</span><span class="eol">. </span><span class="kw">return</span> <span class="var">out</span><span class="eol">󰘌</span>  <span class="st-warning">■ shadowed local `out`</span></div>
-                  <div class="ln"><span class="ln__sign"> </span><span class="ln__nr">16</span><span class="kw">end</span><span class="eol">󰘌</span></div>
-                  <div class="ln"><span class="ln__sign"> </span><span class="ln__nr">17</span><span class="eol">󰘌</span></div>
-                  <div class="ln"><span class="ln__sign"> </span><span class="ln__nr">18</span><span class="kw">return</span> <span class="var">M</span><span class="eol">󰘌</span></div>
+                  <div class="ln"><span class="ln__sign "> </span><span class="ln__nr">1</span><span class="com">-- palette → <span class="search">hex</span> для конфигов программ</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign "> </span><span class="ln__nr">2</span><span class="kw">local</span> <span class="var">M</span> <span class="pn">=</span> <span class="pn">{}</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign "> </span><span class="ln__nr">3</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign "> </span><span class="ln__nr">4</span><span class="kw">local function</span> <span class="fn">to_<span class="search">hex</span></span><span class="pn">(</span><span class="var">color</span><span class="pn">)</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign st-error">E</span><span class="ln__nr">5</span><span class="ws">. </span><span class="kw">local</span> <span class="var">r</span><span class="pn">,</span> <span class="var">g</span><span class="pn">,</span> <span class="var">b</span> <span class="pn">=</span> <span class="var">oklch</span><span class="pn">.</span><span class="fn">to_rgb</span><span class="pn">(</span><span class="var">color</span><span class="pn">.</span><span class="var">l</span><span class="pn">,</span> <span class="var">color</span><span class="pn">.</span><span class="var">c</span><span class="pn">,</span> <span class="var">color</span><span class="pn">.</span><span class="var">h</span><span class="pn">)</span><span class="eol">&#xf060c;</span>  <span class="st-error">■ undefined global `oklch`</span></div>
+                  <div class="ln"><span class="ln__sign "> </span><span class="ln__nr">6</span><span class="ws">. </span><span class="kw">return</span> <span class="var">string</span><span class="pn">.</span><span class="fn">format</span><span class="pn">(</span><span class="str">"#%02x%02x%02x"</span><span class="pn">,</span> <span class="var">r</span><span class="pn">,</span> <span class="var">g</span><span class="pn">,</span> <span class="var">b</span><span class="pn">)</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign "> </span><span class="ln__nr">7</span><span class="kw">end</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign "> </span><span class="ln__nr">8</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign "> </span><span class="ln__nr">9</span><span class="kw">function</span> <span class="var">M</span><span class="pn">.</span><span class="fn">render</span><span class="pn">(</span><span class="var">colors</span><span class="pn">)</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign st-changed"> ▎</span><span class="ln__nr">10</span><span class="ws">. </span><span class="kw">local</span> <span class="var">out</span> <span class="pn">=</span> <span class="pn">{}</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign st-hint">H</span><span class="ln__nr">11</span><span class="ws">. </span><span class="kw">for</span> <span class="var">name</span><span class="pn">,</span> <span class="var">color</span> <span class="kw">in</span> <span class="visual"><span class="fn">pairs</span><span class="pn">(</span><span class="var">colors</span><span class="pn">)</span></span> <span class="kw">do</span><span class="eol">&#xf060c;</span>  <span class="st-hint">■ use ipairs for arrays</span></div>
+                  <div class="ln ln_cursor"><span class="ln__sign st-added"> ▎</span><span class="ln__nr">12</span><span class="ws">. . </span><span class="var">out</span><span class="pn">[</span><span class="var">name</span><span class="pn">]</span> <span class="pn">=</span> <span class="fn">to_<span class="cursearch">hex</span></span><span class="pn">(</span><span class="var">color</span><span class="cursor">)</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign st-removed"> ▁</span><span class="ln__nr">13</span><span class="ws">. </span><span class="kw">end</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign st-warning">W</span><span class="ln__nr">14</span><span class="ws">. </span><span class="kw">return</span> <span class="var">out</span><span class="eol">&#xf060c;</span>  <span class="st-warning">■ shadowed local `out`</span></div>
+                  <div class="ln"><span class="ln__sign "> </span><span class="ln__nr">15</span><span class="kw">end</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign "> </span><span class="ln__nr">16</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign "> </span><span class="ln__nr">17</span><span class="kw">return</span> <span class="var">M</span><span class="eol">&#xf060c;</span></div>
+                  <div class="ln"><span class="ln__sign "> </span><span class="ln__nr">18</span><span class="eol">&#xf060c;</span></div>
                 </div>
               </div>
 
@@ -190,39 +190,39 @@
               </div>
               <div class="nv-cmd"> </div>
 
-              <!-- 2 overlay: Telescope -->
-              <div class="float" style="top: 20px; left: 10ch; width: 128ch">
-                <div class="split">
-                  <div style="width: 52ch">
-                    <div class="float__title">Find Files</div>
-                    <div class="float__row"><span class="match">&gt;</span> pal</div>
-                    <div class="float__sep"></div>
-                    <div class="float__row float__row_sel">&#xe749; theme/<span class="match">pal</span>ette.css</div>
-                    <div class="float__row">&#xe749; owo/web/static/css/constants/colors.css</div>
-                    <div class="float__row">&#xe73e; docs/backlog/<span class="match">pal</span>ette-notes.md</div>
-                    <div class="float__row">&#xe795; scripts/sync-owo.sh</div>
-                    <div class="float__row">&#xe736; theme/scale.html</div>
-                    <div class="float__row float__kind">5 / 214</div>
-                  </div>
-                  <div class="fill" style="border-left: 1px solid var(--border-subtle)">
-                    <div class="float__title">Preview</div>
-                    <div class="float__row"><span class="com">/* --- серые --- */</span></div>
-                    <div class="float__row"><span class="var">--GRAY-100</span><span class="pn">:</span> <span class="num">#fff</span><span class="pn">;</span></div>
-                    <div class="float__row"><span class="var">--GRAY-98</span><span class="pn">:</span> <span class="fn">oklch</span><span class="pn">(</span><span class="num">0.98 0 0</span><span class="pn">);</span></div>
-                    <div class="float__row"><span class="var">--GRAY-96</span><span class="pn">:</span> <span class="fn">oklch</span><span class="pn">(</span><span class="num">0.96 0 0</span><span class="pn">);</span></div>
-                    <div class="float__row"><span class="var">--GRAY-94</span><span class="pn">:</span> <span class="fn">oklch</span><span class="pn">(</span><span class="num">0.94 0 0</span><span class="pn">);</span></div>
-                    <div class="float__row"><span class="var">--GRAY-91</span><span class="pn">:</span> <span class="num">#e0e0e0</span><span class="pn">;</span></div>
-                    <div class="float__row"><span class="var">--GRAY-85</span><span class="pn">:</span> <span class="fn">oklch</span><span class="pn">(</span><span class="num">0.85 0 0</span><span class="pn">);</span></div>
-                  </div>
-                </div>
+              <!-- 2 overlay: Telescope — три окна, у каждого своя рамка -->
+              <div class="float" style="top: 20px; left: 8ch; width: 62ch">
+                <div class="float__title">Results</div>
+                <div class="float__row float__row_sel"><span class="ftype">&#xe749;</span> theme/<span class="match">pal</span>ette.css</div>
+                <div class="float__row"><span class="ftype">&#xe749;</span> owo/web/static/css/constants/colors.css</div>
+                <div class="float__row"><span class="ftype">&#xe73e;</span> docs/backlog/<span class="match">pal</span>ette-notes.md</div>
+                <div class="float__row"><span class="ftype">&#xe795;</span> scripts/sync-owo.sh</div>
+                <div class="float__row"><span class="ftype">&#xe736;</span> theme/scale.html</div>
+                <div class="float__row float__kind">5 / 214</div>
+              </div>
+              <div class="float" style="top: 180px; left: 8ch; width: 62ch">
+                <div class="float__title">Find Files</div>
+                <div class="float__row"><span class="match">&gt;</span> pal<span class="cursor"> </span></div>
+              </div>
+              <div class="float" style="top: 20px; left: 71ch; width: 70ch">
+                <div class="float__title">Preview</div>
+                <div class="float__row"><span class="com">/* --- серые --- */</span></div>
+                <div class="float__row"><span class="var">--GRAY-100</span><span class="pn">:</span> <span class="num">#fff</span><span class="pn">;</span></div>
+                <div class="float__row"><span class="var">--GRAY-98</span><span class="pn">:</span> <span class="fn">oklch</span><span class="pn">(</span><span class="num">0.98 0 0</span><span class="pn">);</span></div>
+                <div class="float__row"><span class="var">--GRAY-96</span><span class="pn">:</span> <span class="fn">oklch</span><span class="pn">(</span><span class="num">0.96 0 0</span><span class="pn">);</span></div>
+                <div class="float__row"><span class="var">--GRAY-94</span><span class="pn">:</span> <span class="fn">oklch</span><span class="pn">(</span><span class="num">0.94 0 0</span><span class="pn">);</span></div>
+                <div class="float__row"><span class="var">--GRAY-91</span><span class="pn">:</span> <span class="num">#e0e0e0</span><span class="pn">;</span></div>
+                <div class="float__row"><span class="var">--GRAY-85</span><span class="pn">:</span> <span class="fn">oklch</span><span class="pn">(</span><span class="num">0.85 0 0</span><span class="pn">);</span></div>
+                <div class="float__row"><span class="var">--GRAY-72</span><span class="pn">:</span> <span class="num">#a4a4a4</span><span class="pn">;</span></div>
+                <div class="float__row"><span class="var">--GRAY-58</span><span class="pn">:</span> <span class="fn">oklch</span><span class="pn">(</span><span class="num">0.58 0 0</span><span class="pn">);</span></div>
               </div>
 
               <!-- 3 modal: confirm -->
-              <div class="modal" style="top: 120px; left: 44ch; width: 46ch">
+              <div class="modal" style="top: 100px; left: 44ch; width: 46ch">
                 <div class="float__title">Save changes?</div>
                 <div class="float__row">theme/render.lua has unsaved changes.</div>
                 <div class="float__row"> </div>
-                <div class="float__row"><span class="b">[Y]</span>es  <span class="b">(N)</span>o  <span class="b">(C)</span>ancel</div>
+                <div class="float__row">[Y]es  (N)o  (C)ancel</div>
               </div>
             </div>
           </div>
