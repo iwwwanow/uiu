@@ -1,0 +1,13 @@
+{
+  "name": "theme-gen",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "uiu theme/*.css → configs for ghostty, waybar, nvim, … (themes/, colors/, lua/)",
+  "scripts": {
+    "build": "bun run src/cli.ts",
+    "check": "bun run src/cli.ts --check",
+    "test": "bun test",
+    "nvim:snapshot": "nvim --clean --headless --cmd \"let g:uiu_out='data/nvim-builtin.json'\" -c 'luafile scripts/nvim-hl-snapshot.lua'"
+  }
+}

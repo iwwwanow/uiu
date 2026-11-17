@@ -15,3 +15,14 @@ pre {
 code {
   font-size: 1em;
 }
+
+/* code: owo names "Roboto Mono" but never loads it, so code falls back to
+   the OS monospace. uiu ships Iosevka Term SS14 + Nerd Fonts in
+   assets/fonts/ (scripts/build-fonts.sh) and uses it instead.
+   The @import is hoisted to the top of owo.css by scripts/sync-owo.sh.
+   owo: docs/backlog/2026-10-24_roboto-mono-not-loaded.md */
+@import url("assets/fonts/iosevka.css");
+
+code {
+  font-family: "IosevkaTermSS14 Nerd Font", monospace;
+}

@@ -26,7 +26,7 @@
 
 .swatch__name,
 .swatch__value {
-  font-family: monospace;
+  font-family: "IosevkaTermSS14 Nerd Font", monospace;
   font-size: 12px;
   line-height: 16px;
 }
@@ -45,7 +45,7 @@
 
 .sample {
   grid-column: 1 / -1;
-  font-family: monospace;
+  font-family: "IosevkaTermSS14 Nerd Font", monospace;
   font-size: 14px;
   line-height: 20px;
   margin-bottom: var(--GRID-GAP);
