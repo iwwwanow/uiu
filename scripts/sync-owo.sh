@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Собирает owo.css из исходников owo (web/static/css) 1:1, в порядке импортов
-# из их index.css. @import шрифтов поднят в начало файла (в склеенном CSS он
-# валиден только там). В конец дописывается scripts/owo-deviations.css —
+# из их index.css. @import шрифтов (из owo и из owo-deviations.css) поднят в
+# начало файла (в склеенном CSS он валиден только там). В конец дописывается scripts/owo-deviations.css —
 # явно помеченные расхождения с owo, каждое со ссылкой на заметку в бэклоге owo.
 #
 # Usage: scripts/sync-owo.sh [path-to-owo-repo]   (default: ../iwwwanow_owo)
@@ -38,13 +38,14 @@ REV="$(git -C "$OWO" rev-parse --short HEAD 2>/dev/null || echo unknown)"
   echo "   ===================================================== */"
   echo
   grep -h '^@import url("https' "$SRC/font.css"
+  grep -h '^@import' "$REPO_ROOT/scripts/owo-deviations.css" || true
   for f in "${FILES[@]}"; do
     echo
     echo "/* --- $f --- */"
     grep -v '^@import url("https' "$SRC/$f"
   done
   echo
-  cat "$REPO_ROOT/scripts/owo-deviations.css"
+  grep -v '^@import' "$REPO_ROOT/scripts/owo-deviations.css"
 } > "$OUT"
 
 echo "owo.css ← $SRC @ $REV"

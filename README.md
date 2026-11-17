@@ -13,6 +13,8 @@ The design language of [owo](https://github.com/iwwwanow/owo) (the engine behind
 | `index.css` | entry point: imports both |
 | `index.html` | owo showcase |
 | `assets/` | logo, logo pattern (og preview), card covers |
+| `assets/fonts/` | Iosevka Term SS14 + Nerd Fonts (woff2, `iosevka.css`) — see [Fonts](#fonts) |
+| `theme/` | draft palette for the terminal / TUI / nvim theme (`palette.css`, `scale.html`), not imported yet |
 | `ai-generated.html` | ai-generated showcase |
 
 ```html
@@ -37,6 +39,17 @@ Every class carries the suffix: `btn_ai-generated btn-primary_ai-generated`, `pa
 btn · input · textarea · select · field · checkbox · radio · range · progress · badge · tag · panel · alert · toast · table · tabs · avatar · breadcrumbs · tooltip · spinner · kbd
 
 Conventions borrowed from owo: h4/h5/h6/p type scale only, 1px LIGHT borders → DARK on hover, BLUE for interactive, RED for danger, no radius (except radio and spinner), no transitions, no uppercase.
+
+## Fonts
+
+`assets/fonts/` holds `IosevkaTermSS14 Nerd Font`: Iosevka Term SS14 patched with the complete Nerd Fonts glyph set, in Regular, Bold, Italic, Bold Italic and Light Italic. The woff2 files serve both the web and the system.
+
+```bash
+scripts/build-fonts.sh     # reproducible rebuild: pinned Iosevka + Nerd Fonts releases (sha256), patched in docker
+scripts/install-fonts.sh   # woff2 → ttf into ~/.local/share/fonts/uiu + fc-cache (needs: pipx install 'fonttools[woff]')
+```
+
+On the web: `<link rel="stylesheet" href="assets/fonts/iosevka.css">`. `owo.css` already imports it and uses it for `code`.
 
 ## Deploy
 
