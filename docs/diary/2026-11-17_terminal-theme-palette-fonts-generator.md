@@ -54,7 +54,7 @@
 - Формат тем 0.42+ взят из встроенной `pencil-light` (исходник KDL лежит строкой в бинарнике zellij 0.46): компоненты `text_*`, `ribbon_*`, `table_*`, `list_*`, `frame_*`, `exit_code_*` с base/background/emphasis_0…3, `multiplayer_user_colors`, `terminal_colors`. Выход `src/targets/zellij.ts` → `themes/zellij/uiu.kdl`, `install.sh` ставит в `~/.local/share/uiu/zellij/`.
 - Разметка как на превью: бары chrome, активная вкладка и режим — `accent-interactive`, остальные плашки (вкладки, клавиши режимов) — `text-on-accent` на `text-muted`, рамка фокуса `border-strong`. Проверено скриншотами отдельной сессии `uiu-preview` (копия конфига, свой `--config-dir`; `main` не трогали). Правки по снимкам: рамка неактивной панели `border-subtle` → `text-disabled` (zellij красит линию и заголовок одним base, на GRAY-91 заголовок не читался); `emphasis_3` — клавиши (`Ctrl g`, `<ENTER>`), было ORANGE-50 → `text-strong`. По снимкам: `emphasis_0` — модификатор «Alt +», `emphasis_2` — счётчики Inbox.
 - Тесты (75): снапшот, набор компонентов = встроенным темам (zellij опечатки в ключах молча пропускает), все цвета — тройки «r g b», `zellij setup --check` (ловит только синтаксис KDL в `theme_dir`, не неизвестную тему).
-- Подключение в dotfiles не сделано (не подтверждено). Выяснено: `theme_dir` не раскрывает `~` и `$HOME`; на несуществующий `theme_dir` zellij не стартует вовсе («Command Failed»). Висячий симлинк вместо стандартного каталога тем (`~/.config/zellij/themes`) и неизвестное имя темы — zellij стартует со встроенной темой. Предложение: симлинк `.config/zellij/themes` → `/home/operator/.local/share/uiu/zellij` в dotfiles + `theme "uiu"`; `main` подхватит после `kill-session` + `delete-session`.
+- Подключено в dotfiles (с подтверждения пользователя): симлинк `.config/zellij/themes` → `/home/operator/.local/share/uiu/zellij`, `theme "uiu"`; проверено в отдельной сессии с настоящим конфигом. `main` подхватит после `zellij kill-session main && zellij delete-session main` — перезапуск за пользователем. Почему так: `theme_dir` не раскрывает `~` и `$HOME`; на несуществующий `theme_dir` zellij не стартует вовсе («Command Failed»). Висячий симлинк вместо стандартного каталога тем (`~/.config/zellij/themes`) и неизвестное имя темы — zellij стартует со встроенной темой, поэтому без uiu (или с другим пользователем) — встроенная тема, а не поломка.
 
 ## Подводные камни
 
@@ -74,7 +74,7 @@
 ## Остаток
 
 - **nvim.** Подключено; посмотреть вживую: рамку overlay, `NormalNC` sunken, серые staged-знаки. `:Lazy clean` уберёт monochrome.
-- zellij: тема готова, подключить в dotfiles (см. раздел zellij) и перезапустить `main`. base16-выход для lazygit, fzf, delta, bat, btop, `theme.tape` для vhs.
+- zellij: перезапустить `main`, посмотреть вживую. base16-выход для lazygit, fzf, delta, bat, btop, `theme.tape` для vhs.
 - Шаг bootstrap `NN_uiu.sh` в dotfiles. Защита waybar от отсутствующего `colors.css`.
 - Открытый вопрос к пользователю: «в nvim по максимуму используем разные начертания» — сделано по его скриншоту (тон + курсив), ответа, хочет ли больше начертаний, нет.
 - Решить по рамке overlay после пробы в настоящем nvim.
