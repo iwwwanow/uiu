@@ -7,8 +7,8 @@
 //   ribbon_*    плашки: вкладки в tab-bar, режим и клавиши в status-bar
 //   table_*, list_*   session-manager, plugin-manager и прочие плагины
 //   frame_*     рамки панелей; exit_code_* — статус командных панелей
-// Разметка — как на превью theme/terminal.html: бары chrome, активное — accent-interactive,
-// клавиши — тёмные плашки, рамка фокуса — border-strong, остальные — text-disabled.
+// Разметка — как на превью theme/terminal.html: бары chrome, активная вкладка — на фоне base,
+// рамка фокуса — border-strong, остальные — text-disabled.
 
 import type { Theme } from "../theme";
 
@@ -21,16 +21,17 @@ type Component = {
 /** Выделения в тексте. По снимкам 0.46: emphasis_0 — модификатор в status-bar («Alt +»),
  *  emphasis_2 — счётчики (Inbox), emphasis_3 — клавиши (Ctrl g, <ENTER>) — чёрным, как на превью. */
 const EMPHASIS: Component["emphasis"] = ["accent-match", "text-strong", "state-added", "text-strong"];
-const ON_ACCENT: Component["emphasis"] = ["text-on-accent", "text-on-accent", "text-on-accent", "text-on-accent"];
 
 const ANSI = ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"];
 
 export const COMPONENTS: Record<string, Component> = {
   text_unselected: { base: "text-muted", background: "surface-chrome", emphasis: EMPHASIS },
   text_selected: { base: "text-strong", background: "accent-menu-selection", emphasis: EMPHASIS },
-  ribbon_selected: { base: "text-on-accent", background: "accent-interactive", emphasis: ON_ACCENT },
-  ribbon_unselected: { base: "text-on-accent", background: "text-muted", emphasis: ON_ACCENT },
-  ribbon_hover: { base: "text-on-accent", background: "text", emphasis: ON_ACCENT },
+  // как вкладки на превью: активная — на фоне base, остальные — текстом на баре.
+  // Тот же компонент красит режим и клавиши в status-bar
+  ribbon_selected: { base: "text-strong", background: "surface-base", emphasis: EMPHASIS },
+  ribbon_unselected: { base: "text-muted", background: "surface-chrome", emphasis: EMPHASIS },
+  ribbon_hover: { base: "text", background: "surface-chrome-hover", emphasis: EMPHASIS },
   table_title: { base: "text-strong", background: "surface-base", emphasis: EMPHASIS },
   table_cell_selected: { base: "text-strong", background: "accent-menu-selection", emphasis: EMPHASIS },
   table_cell_unselected: { base: "text", background: "surface-base", emphasis: EMPHASIS },
