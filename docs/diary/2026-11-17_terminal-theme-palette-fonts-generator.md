@@ -1,6 +1,6 @@
 # 2026-11-17 — единая тема терминала: палитра, шрифт, генератор, ghostty и waybar
 
-Большая сессия по теме для терминала, TUI и nvim из токенов uiu (идея — `docs/backlog/2026-10-30_terminal-themes-levels-oklch.md`). Договорились об инструментах и именах, собрали шкалу и роли, превью экрана, воспроизводимую сборку шрифта, генератор конфигов. ghostty и waybar уже на теме uiu. Вся работа в ветке `feat/terminal-theme` (запушена, в master не влита).
+Большая сессия по теме для терминала, TUI и nvim из токенов uiu (идея — `docs/backlog/2026-10-30_terminal-themes-levels-oklch.md`). Договорились об инструментах и именах, собрали шкалу и роли, превью экрана, воспроизводимую сборку шрифта, генератор конфигов. На теме uiu: ghostty, waybar, nvim, zellij, delta; bat и btop — через ANSI-палитру; есть выходы base16 и vhs. Ветка `feat/terminal-theme` влита в master, дальше работа шла прямо в master (запушен, последний коммит `9636280`). Тестов генератора — 88, все проходят.
 
 ## Ключевые решения
 
@@ -52,19 +52,19 @@
 ## zellij (третья часть)
 
 - Формат тем 0.42+ взят из встроенной `pencil-light` (исходник KDL лежит строкой в бинарнике zellij 0.46): компоненты `text_*`, `ribbon_*`, `table_*`, `list_*`, `frame_*`, `exit_code_*` с base/background/emphasis_0…3, `multiplayer_user_colors`, `terminal_colors`. Выход `src/targets/zellij.ts` → `themes/zellij/uiu.kdl`, `install.sh` ставит в `~/.local/share/uiu/zellij/`.
-- Разметка как на превью: бары chrome, активная вкладка и режим — `accent-interactive`, остальные плашки (вкладки, клавиши режимов) — `text-on-accent` на `text-muted`, рамка фокуса `border-strong`. Проверено скриншотами отдельной сессии `uiu-preview` (копия конфига, свой `--config-dir`; `main` не трогали). Правки по снимкам: рамка неактивной панели `border-subtle` → `text-disabled` (zellij красит линию и заголовок одним base, на GRAY-91 заголовок не читался); `emphasis_3` — клавиши (`Ctrl g`, `<ENTER>`), было ORANGE-50 → `text-strong`. По снимкам: `emphasis_0` — модификатор «Alt +», `emphasis_2` — счётчики Inbox.
+- Разметка: бары chrome, рамка фокуса `border-strong`, вкладки светлые (ниже). Проверено скриншотами отдельной сессии `uiu-preview` (копия конфига, свой `--config-dir`; `main` не трогали). Правки по снимкам: рамка неактивной панели `border-subtle` → `text-disabled` (zellij красит линию и заголовок одним base, на GRAY-91 заголовок не читался); `emphasis_3` — клавиши (`Ctrl g`, `<ENTER>`), было ORANGE-50 → `text-strong`. По снимкам: `emphasis_0` — модификатор «Alt +», `emphasis_2` — счётчики Inbox.
 - Тесты (75): снапшот, набор компонентов = встроенным темам (zellij опечатки в ключах молча пропускает), все цвета — тройки «r g b», `zellij setup --check` (ловит только синтаксис KDL в `theme_dir`, не неизвестную тему).
-- Вкладки переделаны в светлые, как на превью (пользователь: тёмные плашки — не то): `ribbon_selected` — `text-strong` на `surface-base`, `ribbon_unselected` — `text-muted` на chrome, `ribbon_hover` — `text` на GRAY-91. Оказалось, tab-bar красит каждую вторую вкладку через `ribbon_hover` (без стрелок в `simplified_ui` соседние плашки иначе сливаются). Активный режим в status-bar теперь тоже белая плашка, не синяя.
+- Вкладки светлые, как на превью (первый вариант — синяя активная и тёмные плашки — пользователь отверг): `ribbon_selected` — `text-strong` на `surface-base`, `ribbon_unselected` — `text-muted` на chrome, `ribbon_hover` — `text` на GRAY-91. Оказалось, tab-bar красит каждую вторую вкладку через `ribbon_hover` (без стрелок в `simplified_ui` соседние плашки иначе сливаются). Активный режим в status-bar теперь тоже белая плашка, не синяя.
 - Белая полоса над баром — отступ ghostty (2pt, на экране 1.2 ≈ 2.4px), не zellij. В dotfiles `window-padding-color = extend-always`: обычный `extend` не красит по вертикали, если в крайней строке есть ячейки с фоном по умолчанию, а виджет `[ > 1 working ]` в баре zellij рисуется на нём. Над самим виджетом полоса белая — у его ячеек белый фон.
 - waybar: критический заряд — `text-on-accent` на `state-error` (белым по RED-50), было красным по RED-95 и не бросалось в глаза. GTK-валидатор `style.css` принимает; вживую не видели — ноутбук заряжался.
 - Подключено в dotfiles (с подтверждения пользователя): симлинк `.config/zellij/themes` → `/home/operator/.local/share/uiu/zellij`, `theme "uiu"`; проверено в отдельной сессии с настоящим конфигом. `main` подхватит после `zellij kill-session main && zellij delete-session main` — перезапуск за пользователем. Почему так: `theme_dir` не раскрывает `~` и `$HOME`; на несуществующий `theme_dir` zellij не стартует вовсе («Command Failed»). Висячий симлинк вместо стандартного каталога тем (`~/.config/zellij/themes`) и неизвестное имя темы — zellij стартует со встроенной темой, поэтому без uiu (или с другим пользователем) — встроенная тема, а не поломка.
 
 ## base16 и второстепенные программы (четвёртая часть)
 
-- Начал было свои темы для lazygit, fzf, btop, bat — пользователь остановил: base16 охватывает больше программ, свои темы — лишнее. Итог — уровни: (1) ANSI-палитра ghostty уже покрывает терминальный софт (lazygit, fzf по умолчанию; в dotfiles `BAT_THEME=ansi`, btop `color_theme = "TTY"`); (2) `themes/base16/uiu.yaml` (tinted-theming 0.11) — мост для остального через tinty (не установлен); (3) свои темы только у nvim, zellij, ghostty, waybar. delta и vhs не установлены — не делали.
+- Начал было свои темы для lazygit, fzf, btop, bat — пользователь остановил: base16 охватывает больше программ, свои темы — лишнее. Итог — уровни: (1) ANSI-палитра ghostty уже покрывает терминальный софт (lazygit, fzf по умолчанию; в dotfiles `BAT_THEME=ansi`, btop `color_theme = "TTY"`); (2) `themes/base16/uiu.yaml` (tinted-theming 0.11) — мост для остального через tinty (не установлен); (3) свои темы только у nvim, zellij, ghostty, waybar (и delta/vhs — ниже).
 - base16: base00–07 — серая шкала от фона к тексту (base06 = base07 = GRAY-0), base08–0F — тёмные ступени акцентов, как ANSI normal. Тесты: разбор `Bun.YAML`, 16 слотов, шкала темнеет монотонно.
 - Проверено по пути: lazygit и fzf падают, если файла из `LG_CONFIG_FILE` / `FZF_DEFAULT_OPTS_FILE` нет — если когда-нибудь подключать их файлами, только с проверкой в `.zshrc`.
-- Вопрос пользователя «почему lazygit тёмный»: все 16 цветов ghostty заданы; TUI почти всегда рисуют ANSI normal (0–7), а это тёмные ступени (L 0.50) — базовые цвета owo на белом не читаются (GREEN ~1.3:1, ORANGE ~2:1, BLUE ~3:1). Заодно замечено: ANSI 4 и 12 — оба BLUE-DARK.
+- Вопрос пользователя «почему lazygit тёмный»: все 16 цветов ghostty заданы (`ghostty +show-config`); TUI почти всегда рисуют ANSI normal (0–7), а это тёмные ступени (L 0.50) — базовые цвета owo на белом не читаются (GREEN ~1.3:1, ORANGE ~2:1, BLUE ~3:1). Предложено поднять normal до L ~0.55–0.58 (контраст ≥ 4.5) — ответа нет. Заодно замечено: ANSI 4 и 12 — оба BLUE-DARK (`#0040ff`).
 
 ## delta и vhs (пятая часть)
 
@@ -88,12 +88,12 @@
 
 ## Остаток
 
-- **nvim.** Подключено; посмотреть вживую: рамку overlay, `NormalNC` sunken, серые staged-знаки. `:Lazy clean` уберёт monochrome.
-- base16 через tinty — когда понадобится программа вне терминала. Сценарии vhs для визуального регресса (nvim, zellij, lazygit) — по желанию.
-- ~~Шаг bootstrap и защита waybar~~ — сделано: `scripts/bootstrap/12_uiu.sh` и `.config/waybar/scripts/launch.sh` + `style-fallback.css` в dotfiles, шаг прогнан на этой машине (см. `docs/backlog/2026-11-17_theme-install-infrastructure.md`). Обёртка waybar вступит в силу при следующем старте sway.
-- Открытый вопрос к пользователю: «в nvim по максимуму используем разные начертания» — сделано по его скриншоту (тон + курсив), ответа, хочет ли больше начертаний, нет.
-- Решить по рамке overlay после пробы в настоящем nvim.
-- Пользователь не подтвердил, что ghostty после Ctrl+Shift+R выглядит правильно и что иконки в превью после сброса кеша отрисовываются.
-- Старый `~/.local/share/fonts/IosevkaTermSS 14 Nerd Font.ttc` (251 МБ, gitignored в dotfiles) дублирует установленные TTF. Удаление — на усмотрение пользователя.
-- Ветка `feat/terminal-theme` не влита. Локальный master на 2 коммита впереди `origin/master` (`dea2098`, `dcc4bdf` — они же в ветке), master не трогали.
+- **nvim вживую** — пользователь отпишется по ходу работы. Смотреть: рамку overlay (GRAY-44 или GRAY-85 при фоне 96), `NormalNC` sunken, серые staged-знаки. `:Lazy clean` уберёт monochrome.
+- **ANSI normal ярче** — если lazygit покажется глухим: поднять L тёмных ступеней до ~0.55–0.58 при контрасте ≥ 4.5 (тест контраста уже есть), развести ANSI 4 и 12.
+- **zellij `main`** подхватит тему после `zellij kill-session main && zellij delete-session main` — за пользователем. Обёртка waybar вступит в силу при следующем старте sway.
+- Не подтверждено пользователем: ghostty после Ctrl+Shift+R, иконки превью после сброса кеша, критический заряд waybar вживую.
+- Открытый вопрос: «в nvim по максимуму используем разные начертания» — сделано тоном и курсивом, хочет ли больше — ответа нет.
+- Старый `~/.local/share/fonts/IosevkaTermSS 14 Nerd Font.ttc` (251 МБ) дублирует установленные TTF; удаление — на усмотрение пользователя.
+- По желанию: base16 через tinty (когда понадобится программа вне терминала); сценарии vhs для визуального регресса (nvim, zellij, lazygit); распараллелить сборку шрифта.
+- Ветка `feat/terminal-theme` (локальная и на origin) влита — можно удалить. Правка в owo (`docs/backlog/2026-10-24_roboto-mono-not-loaded.md`) не закоммичена.
 - Тёмная тема — инверсией шкалы, после утверждения светлой. `docs/planning.md` в репо нет.
