@@ -78,7 +78,7 @@
 
 - **nvim.** Подключено; посмотреть вживую: рамку overlay, `NormalNC` sunken, серые staged-знаки. `:Lazy clean` уберёт monochrome.
 - zellij: перезапустить `main`, посмотреть вживую. base16-выход для lazygit, fzf, delta, bat, btop, `theme.tape` для vhs.
-- Шаг bootstrap `NN_uiu.sh` в dotfiles. Защита waybar от отсутствующего `colors.css`.
+- ~~Шаг bootstrap и защита waybar~~ — сделано: `scripts/bootstrap/12_uiu.sh` и `.config/waybar/scripts/launch.sh` + `style-fallback.css` в dotfiles, шаг прогнан на этой машине (см. `docs/backlog/2026-11-17_theme-install-infrastructure.md`). Обёртка waybar вступит в силу при следующем старте sway.
 - Открытый вопрос к пользователю: «в nvim по максимуму используем разные начертания» — сделано по его скриншоту (тон + курсив), ответа, хочет ли больше начертаний, нет.
 - Решить по рамке overlay после пробы в настоящем nvim.
 - Пользователь не подтвердил, что ghostty после Ctrl+Shift+R выглядит правильно и что иконки в превью после сброса кеша отрисовываются.
