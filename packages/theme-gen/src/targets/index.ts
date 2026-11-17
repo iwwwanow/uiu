@@ -1,7 +1,9 @@
 import type { Theme } from "../theme";
 import { base16 } from "./base16";
+import { delta } from "./delta";
 import { ghostty } from "./ghostty";
 import { nvimColors, nvimInit, nvimLualine } from "./nvim";
+import { vhs } from "./vhs";
 import { waybar } from "./waybar";
 import { zellij } from "./zellij";
 
@@ -11,6 +13,8 @@ export const TARGETS: Record<string, (t: Theme) => string> = {
   "themes/waybar/colors.css": waybar,
   "themes/zellij/uiu.kdl": zellij,
   "themes/base16/uiu.yaml": base16,
+  "themes/delta/uiu.gitconfig": delta,
+  "themes/vhs/uiu.tape": vhs,
   "colors/uiu.lua": nvimColors,
   "lua/uiu/init.lua": nvimInit,
   "lua/lualine/themes/uiu.lua": nvimLualine,

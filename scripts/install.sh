@@ -4,6 +4,8 @@
 #   ~/.local/share/uiu/waybar/colors.css   ← themes/waybar/colors.css
 #   ~/.local/share/uiu/zellij/uiu.kdl      ← themes/zellij/uiu.kdl
 #   ~/.local/share/uiu/base16/uiu.yaml     ← themes/base16/uiu.yaml (для tinty)
+#   ~/.local/share/uiu/delta/uiu.gitconfig ← themes/delta/uiu.gitconfig ([include] в .gitconfig)
+#   ~/.local/share/uiu/vhs/uiu.tape        ← themes/vhs/uiu.tape (Source в сценариях vhs)
 #   ~/.local/share/fonts/uiu/              ← assets/fonts (scripts/install-fonts.sh)
 # Место — вне каталогов stow: файлы, записанные в ~/.config/<tool>/, попали бы
 # в репо dotfiles и в git-sync.
@@ -32,6 +34,8 @@ FILES=(
   "waybar/colors.css"
   "zellij/uiu.kdl"
   "base16/uiu.yaml"
+  "delta/uiu.gitconfig"
+  "vhs/uiu.tape"
 )
 
 for rel in "${FILES[@]}"; do

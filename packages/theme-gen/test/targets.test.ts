@@ -10,6 +10,8 @@ import { ghostty } from "../src/targets/ghostty";
 import { gtkName, waybar } from "../src/targets/waybar";
 import { COMPONENTS, zellij } from "../src/targets/zellij";
 import { base16, SLOTS } from "../src/targets/base16";
+import { delta } from "../src/targets/delta";
+import { vhs } from "../src/targets/vhs";
 
 const t = await loadTheme();
 
@@ -138,5 +140,53 @@ describe("base16", () => {
   test("gray ramp darkens from base00 to base07", () => {
     const ls = SLOTS.slice(0, 8).map(([, role]) => t.role(role).l);
     for (let i = 1; i < ls.length; i++) expect(ls[i]!).toBeLessThanOrEqual(ls[i - 1]!);
+  });
+});
+
+describe("delta", () => {
+  const out = delta(t);
+
+  test("snapshot", () => expect(out).toMatchSnapshot());
+
+  // git сам разбирает файл: значения с # должны быть в кавычках, иначе это комментарий
+  test("git config reads every color", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "uiu-delta-"));
+    try {
+      await Bun.write(join(dir, "uiu.gitconfig"), out);
+      const p = Bun.spawnSync(["git", "config", "--file", join(dir, "uiu.gitconfig"), "--get", "delta.minus-style"]);
+      expect(p.stdout.toString().trim()).toBe(`syntax ${t.role("state-removed-bg").hex}`);
+      const all = Bun.spawnSync(["git", "config", "--file", join(dir, "uiu.gitconfig"), "--list"]).stdout.toString();
+      const hexes = all.match(/#[0-9a-f]{6}/g) ?? [];
+      expect(hexes.length).toBe((out.match(/#[0-9a-f]{6}/g) ?? []).length);
+    } finally {
+      await rm(dir, { recursive: true });
+    }
+  });
+
+  test.skipIf(!Bun.which("delta"))("delta accepts the config", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "uiu-delta-"));
+    try {
+      await Bun.write(join(dir, "uiu.gitconfig"), out);
+      await Bun.write(join(dir, "gitconfig"), `[include]\n\tpath = ${join(dir, "uiu.gitconfig")}\n`);
+      const p = Bun.spawnSync(["delta", "--show-config"], { env: { ...process.env, GIT_CONFIG_GLOBAL: join(dir, "gitconfig") } });
+      expect({ code: p.exitCode, err: p.stderr.toString() }).toEqual({ code: 0, err: "" });
+      expect(p.stdout.toString()).toContain(t.role("state-removed-bg").hex);
+    } finally {
+      await rm(dir, { recursive: true });
+    }
+  });
+});
+
+describe("vhs", () => {
+  const out = vhs(t);
+
+  test("snapshot", () => expect(out).toMatchSnapshot());
+
+  test("Set Theme with background, foreground and 16 ANSI colors", () => {
+    const line = out.split("\n").find((l) => l.startsWith("Set Theme "))!;
+    const theme = JSON.parse(line.slice("Set Theme ".length));
+    expect(theme.background).toBe(t.role("surface-base").hex);
+    const ansi = Object.keys(theme).filter((k) => !["name", "background", "foreground", "cursor", "selection"].includes(k));
+    expect(ansi.length).toBe(16);
   });
 });
