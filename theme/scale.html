@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scale — iwwwanow / uiu</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg" />
+  <!-- owo.css — только типографика и сетка страницы; образцы берут цвета из palette.css -->
+  <link rel="stylesheet" href="../owo.css" />
+  <link rel="stylesheet" href="palette.css" />
+  <link rel="stylesheet" href="scale.css" />
+</head>
+
+<body>
+  <div class="wrapper">
+
+    <header class="grid header">
+      <a href="../"><h5>iwwwanow / uiu</h5></a>
+      <h5>theme / scale</h5>
+    </header>
+
+    <div class="grid">
+      <div class="grid__left-content">
+        <h1>scale</h1>
+      </div>
+      <div class="grid__right-content">
+        <p>
+          Черновик шкалы для терминальной темы. Значения — в <code>theme/palette.css</code>:
+          правь их в DevTools (Styles → <code>:root</code>) при подключённом Workspace,
+          подписи обновляются сами. Имя ступени — OKLCH L × 100.
+        </p>
+      </div>
+    </div>
+
+    <!-- ══ grays ══ -->
+    <div class="grid">
+      <fieldset class="hr_fieldset"><legend><h6>gray</h6></legend></fieldset>
+      <div class="scale">
+        <div class="swatch" data-var="--GRAY-100" data-owo="--WHITE"></div>
+        <div class="swatch" data-var="--GRAY-98"></div>
+        <div class="swatch" data-var="--GRAY-96"></div>
+        <div class="swatch" data-var="--GRAY-94"></div>
+        <div class="swatch" data-var="--GRAY-91" data-owo="--LIGHT"></div>
+        <div class="swatch" data-var="--GRAY-85"></div>
+        <div class="swatch" data-var="--GRAY-72" data-owo="--MEDIUM"></div>
+        <div class="swatch" data-var="--GRAY-58"></div>
+        <div class="swatch" data-var="--GRAY-44" data-owo="--DARK"></div>
+        <div class="swatch" data-var="--GRAY-28"></div>
+        <div class="swatch" data-var="--GRAY-0" data-owo="--BLACK"></div>
+      </div>
+    </div>
+
+    <!-- ══ accents ══ -->
+    <div class="grid">
+      <fieldset class="hr_fieldset"><legend><h6>accents · 50 / base / 95</h6></legend></fieldset>
+      <div class="scale scale_accents">
+        <h5 class="scale__label">red</h5>
+        <div class="swatch" data-var="--RED-50"></div>
+        <div class="swatch" data-var="--RED" data-owo="--RED"></div>
+        <div class="swatch" data-var="--RED-95"></div>
+
+        <h5 class="scale__label">orange</h5>
+        <div class="swatch" data-var="--ORANGE-50"></div>
+        <div class="swatch" data-var="--ORANGE" data-owo="--ORANGE"></div>
+        <div class="swatch" data-var="--ORANGE-95"></div>
+
+        <h5 class="scale__label">green</h5>
+        <div class="swatch" data-var="--GREEN-50"></div>
+        <div class="swatch" data-var="--GREEN" data-owo="--GREEN"></div>
+        <div class="swatch" data-var="--GREEN-95"></div>
+
+        <h5 class="scale__label">blue</h5>
+        <div class="swatch" data-var="--BLUE-50"></div>
+        <div class="swatch" data-var="--BLUE" data-owo="--BLUE"></div>
+        <div class="swatch" data-var="--BLUE-95"></div>
+
+        <h5 class="scale__label">blue-dark</h5>
+        <div class="swatch" data-var="--BLUE-DARK" data-owo="--BLUE-DARK"></div>
+        <div></div>
+        <div class="swatch" data-var="--BLUE-DARK-95"></div>
+
+        <h5 class="scale__label">magenta</h5>
+        <div class="swatch" data-var="--MAGENTA-50"></div>
+        <div class="swatch" data-var="--MAGENTA"></div>
+        <div class="swatch" data-var="--MAGENTA-95"></div>
+      </div>
+    </div>
+
+    <!-- ══ samples ══ -->
+    <div class="grid">
+      <fieldset class="hr_fieldset"><legend><h6>в деле · фон GRAY-100</h6></legend></fieldset>
+      <div class="sample sample_surface-100">
+        <div class="sample__line"><span class="sample__gutter t-faint"> </span><span class="t-faint">-- серый синтаксис, цвет только у состояний</span><span class="sample__eol">↲</span></div>
+        <div class="sample__line"><span class="sample__gutter t-faint"> </span><span>local function render(colors)</span><span class="sample__eol">↲</span></div>
+        <div class="sample__line bg-green"><span class="sample__gutter t-green">+</span><span>  local hex = to_hex(colors.base)</span><span class="sample__eol">↲</span></div>
+        <div class="sample__line bg-blue"><span class="sample__gutter t-blue">~</span><span>  return hex:lower()</span><span class="sample__eol">↲</span></div>
+        <div class="sample__line bg-red"><span class="sample__gutter t-red">-</span><span>  return hex</span><span class="sample__eol">↲</span></div>
+        <div class="sample__line"><span class="sample__gutter t-faint"> </span><span>end</span><span class="sample__eol">↲</span></div>
+        <div class="sample__line"><span class="sample__gutter t-red">E</span><span class="t-red">undefined global `to_hex`</span></div>
+        <div class="sample__line"><span class="sample__gutter t-orange">W</span><span class="t-orange">unused local `colors`</span></div>
+        <div class="sample__line"><span class="sample__gutter t-blue">I</span><span class="t-blue">3 references</span></div>
+        <div class="sample__line"><span class="sample__gutter t-faint">H</span><span class="t-faint">consider string.format</span></div>
+      </div>
+
+      <fieldset class="hr_fieldset"><legend><h6>в деле · фон GRAY-94</h6></legend></fieldset>
+      <div class="sample sample_surface-94">
+        <div class="sample__line"><span class="t-red">red-50</span>  <span class="t-orange">orange-50</span>  <span class="t-green">green-50</span>  <span class="t-blue">blue-50</span>  <span class="t-blue-dark">blue-dark</span>  <span class="t-magenta">magenta-50</span>  <span class="t-faint">gray-58</span>  gray-28</div>
+        <div class="sample__line"><span class="bg-red">red-95</span> <span class="bg-orange">orange-95</span> <span class="bg-green">green-95</span> <span class="bg-blue">blue-95</span><span class="sample__eol">↲</span></div>
+      </div>
+    </div>
+
+  </div>
+  <script src="scale.js"></script>
+</body>
+</html>

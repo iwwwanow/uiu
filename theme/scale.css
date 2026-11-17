@@ -1,0 +1,87 @@
+/* стили страницы scale.html — только раскладка.
+   Все цвета образцов берутся из palette.css. */
+
+.scale {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--GRID-GAP-2);
+  margin-bottom: var(--GRID-GAP);
+}
+
+.scale_accents {
+  grid-template-columns: 120px repeat(3, minmax(120px, 1fr));
+  align-items: stretch;
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+}
+
+.swatch__chip {
+  height: 72px;
+  border: 1px solid var(--GRAY-91);
+}
+
+.swatch__name,
+.swatch__value {
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.swatch__name { margin-top: 4px; }
+.swatch__value { white-space: pre-line; }
+.swatch__value { color: var(--GRAY-58); }
+.swatch__value_warn { color: var(--RED-50); }
+
+.scale__label {
+  display: flex;
+  align-items: center;
+}
+
+/* --- примеры применения --- */
+
+.sample {
+  grid-column: 1 / -1;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: var(--GRID-GAP);
+  border: 1px solid var(--GRAY-91);
+}
+
+.sample * {
+  font: inherit; /* owo задаёт шрифт span'ам — здесь везде моноширинный */
+}
+
+.sample__line {
+  display: flex;
+  white-space: pre;
+  padding: 0 8px;
+}
+
+.sample__gutter {
+  width: 2ch;
+  flex: none;
+}
+
+.sample__eol { color: var(--MAGENTA); }
+
+.sample_surface-100 { background: var(--GRAY-100); color: var(--GRAY-28); }
+.sample_surface-94 { background: var(--GRAY-94); color: var(--GRAY-28); }
+.sample_surface-94 .sample__line { gap: 2ch; } /* flex съедает пробелы между span'ами */
+
+.t-faint { color: var(--GRAY-58); }
+.t-red { color: var(--RED-50); }
+.t-orange { color: var(--ORANGE-50); }
+.t-green { color: var(--GREEN-50); }
+.t-blue { color: var(--BLUE-50); }
+.t-blue-dark { color: var(--BLUE-DARK); }
+.t-magenta { color: var(--MAGENTA-50); }
+
+.bg-red { background: var(--RED-95); }
+.bg-green { background: var(--GREEN-95); }
+.bg-blue { background: var(--BLUE-95); }
+.bg-orange { background: var(--ORANGE-95); }

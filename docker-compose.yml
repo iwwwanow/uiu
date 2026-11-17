@@ -10,3 +10,12 @@ services:
       - ./packages/editor/sample:/data
     environment:
       - FILES_ROOT=/data
+
+  # статика репо для превью темы (theme/*.html).
+  # Только чтение: правки в файлы пишет Chrome DevTools Workspaces, не сервер.
+  preview:
+    image: nginx:1.27-alpine
+    ports:
+      - "8765:80"
+    volumes:
+      - .:/usr/share/nginx/html:ro
