@@ -9,6 +9,7 @@ import { TARGETS } from "../src/targets";
 import { ghostty } from "../src/targets/ghostty";
 import { gtkName, waybar } from "../src/targets/waybar";
 import { COMPONENTS, zellij } from "../src/targets/zellij";
+import { base16, SLOTS } from "../src/targets/base16";
 
 const t = await loadTheme();
 
@@ -117,5 +118,25 @@ describe("zellij", () => {
     } finally {
       await rm(dir, { recursive: true });
     }
+  });
+});
+
+describe("base16", () => {
+  const out = base16(t);
+
+  test("snapshot", () => expect(out).toMatchSnapshot());
+
+  test("tinted-theming scheme: 16 slots base00…base0F, all hex", () => {
+    const parsed = Bun.YAML.parse(out) as { system: string; variant: string; palette: Record<string, string> };
+    expect(parsed.system).toBe("base16");
+    expect(parsed.variant).toBe("light");
+    expect(Object.keys(parsed.palette)).toEqual([...Array(16).keys()].map((i) => `base0${i.toString(16).toUpperCase()}`));
+    for (const v of Object.values(parsed.palette)) expect(v).toMatch(/^#[0-9a-f]{6}$/);
+  });
+
+  // светлая схема: base00 → base07 темнеют монотонно
+  test("gray ramp darkens from base00 to base07", () => {
+    const ls = SLOTS.slice(0, 8).map(([, role]) => t.role(role).l);
+    for (let i = 1; i < ls.length; i++) expect(ls[i]!).toBeLessThanOrEqual(ls[i - 1]!);
   });
 });

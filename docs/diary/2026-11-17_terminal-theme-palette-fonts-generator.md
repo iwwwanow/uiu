@@ -59,6 +59,13 @@
 - waybar: критический заряд — `text-on-accent` на `state-error` (белым по RED-50), было красным по RED-95 и не бросалось в глаза. GTK-валидатор `style.css` принимает; вживую не видели — ноутбук заряжался.
 - Подключено в dotfiles (с подтверждения пользователя): симлинк `.config/zellij/themes` → `/home/operator/.local/share/uiu/zellij`, `theme "uiu"`; проверено в отдельной сессии с настоящим конфигом. `main` подхватит после `zellij kill-session main && zellij delete-session main` — перезапуск за пользователем. Почему так: `theme_dir` не раскрывает `~` и `$HOME`; на несуществующий `theme_dir` zellij не стартует вовсе («Command Failed»). Висячий симлинк вместо стандартного каталога тем (`~/.config/zellij/themes`) и неизвестное имя темы — zellij стартует со встроенной темой, поэтому без uiu (или с другим пользователем) — встроенная тема, а не поломка.
 
+## base16 и второстепенные программы (четвёртая часть)
+
+- Начал было свои темы для lazygit, fzf, btop, bat — пользователь остановил: base16 охватывает больше программ, свои темы — лишнее. Итог — уровни: (1) ANSI-палитра ghostty уже покрывает терминальный софт (lazygit, fzf по умолчанию; в dotfiles `BAT_THEME=ansi`, btop `color_theme = "TTY"`); (2) `themes/base16/uiu.yaml` (tinted-theming 0.11) — мост для остального через tinty (не установлен); (3) свои темы только у nvim, zellij, ghostty, waybar. delta и vhs не установлены — не делали.
+- base16: base00–07 — серая шкала от фона к тексту (base06 = base07 = GRAY-0), base08–0F — тёмные ступени акцентов, как ANSI normal. Тесты: разбор `Bun.YAML`, 16 слотов, шкала темнеет монотонно.
+- Проверено по пути: lazygit и fzf падают, если файла из `LG_CONFIG_FILE` / `FZF_DEFAULT_OPTS_FILE` нет — если когда-нибудь подключать их файлами, только с проверкой в `.zshrc`.
+- Вопрос пользователя «почему lazygit тёмный»: все 16 цветов ghostty заданы; TUI почти всегда рисуют ANSI normal (0–7), а это тёмные ступени (L 0.50) — базовые цвета owo на белом не читаются (GREEN ~1.3:1, ORANGE ~2:1, BLUE ~3:1). Заодно замечено: ANSI 4 и 12 — оба BLUE-DARK.
+
 ## Подводные камни
 
 - ghostty раскрывает `~/` в `config-file`, `$HOME` — нет. Проверено на 1.4.
@@ -77,7 +84,7 @@
 ## Остаток
 
 - **nvim.** Подключено; посмотреть вживую: рамку overlay, `NormalNC` sunken, серые staged-знаки. `:Lazy clean` уберёт monochrome.
-- zellij: перезапустить `main`, посмотреть вживую. base16-выход для lazygit, fzf, delta, bat, btop, `theme.tape` для vhs.
+- base16 через tinty — когда понадобится программа вне терминала. vhs и delta — если поставит.
 - ~~Шаг bootstrap и защита waybar~~ — сделано: `scripts/bootstrap/12_uiu.sh` и `.config/waybar/scripts/launch.sh` + `style-fallback.css` в dotfiles, шаг прогнан на этой машине (см. `docs/backlog/2026-11-17_theme-install-infrastructure.md`). Обёртка waybar вступит в силу при следующем старте sway.
 - Открытый вопрос к пользователю: «в nvim по максимуму используем разные начертания» — сделано по его скриншоту (тон + курсив), ответа, хочет ли больше начертаний, нет.
 - Решить по рамке overlay после пробы в настоящем nvim.
