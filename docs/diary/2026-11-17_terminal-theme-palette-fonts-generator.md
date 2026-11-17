@@ -66,6 +66,11 @@
 - Проверено по пути: lazygit и fzf падают, если файла из `LG_CONFIG_FILE` / `FZF_DEFAULT_OPTS_FILE` нет — если когда-нибудь подключать их файлами, только с проверкой в `.zshrc`.
 - Вопрос пользователя «почему lazygit тёмный»: все 16 цветов ghostty заданы; TUI почти всегда рисуют ANSI normal (0–7), а это тёмные ступени (L 0.50) — базовые цвета owo на белом не читаются (GREEN ~1.3:1, ORANGE ~2:1, BLUE ~3:1). Заодно замечено: ANSI 4 и 12 — оба BLUE-DARK.
 
+## delta и vhs (пятая часть)
+
+- Пользователь поставил `git-delta` 0.20.1 и `vhs` 0.12.1. delta: выход `themes/delta/uiu.gitconfig` — подложки строк `state-*-bg`, изменённые слова — `state-*` на той же подложке (как `GitSigns*Inline` в nvim), синтаксис — ANSI (`syntax-theme = ansi`); в dotfiles `.gitconfig`: `[include] path = ~/.local/share/uiu/delta/uiu.gitconfig` (без файла git include молча пропускает), `core.pager = delta`, `interactive.diffFilter = delta --color-only`, `delta.paging = never` (раньше было `pager = cat` — без пейджера и осталось). Проверено скриншотом настоящего диффа. Значения с `#` в gitconfig — только в кавычках. `git config --global --get` include не читает (нужен `--includes`), обычный `git config` — читает.
+- vhs: выход `themes/vhs/uiu.tape` — `Set Theme {…}` (xterm.js) и `Set FontFamily '"IosevkaTermSS 14 Nerd Font"'`. Грабли: `Source` не раскрывает `~` — только абсолютный путь в кавычках; имя шрифта для Chromium — по fontconfig (с пробелом, не `IosevkaTermSS14`), vhs вставляет его в JS в одинарных кавычках, а в CSS имя с «14» без кавычек недопустимо — поэтому внутри двойные. xterm.js рисует жирный яркими цветами (в ghostty `bold-is-bright` выключен) — ветки в `git log` выходят базовыми owo, на белом плохо. Тест — `vhs validate`. Пробная запись прошла (Chromium vhs скачивает сам).
+
 ## Подводные камни
 
 - ghostty раскрывает `~/` в `config-file`, `$HOME` — нет. Проверено на 1.4.
@@ -84,7 +89,7 @@
 ## Остаток
 
 - **nvim.** Подключено; посмотреть вживую: рамку overlay, `NormalNC` sunken, серые staged-знаки. `:Lazy clean` уберёт monochrome.
-- base16 через tinty — когда понадобится программа вне терминала. vhs и delta — если поставит.
+- base16 через tinty — когда понадобится программа вне терминала. Сценарии vhs для визуального регресса (nvim, zellij, lazygit) — по желанию.
 - ~~Шаг bootstrap и защита waybar~~ — сделано: `scripts/bootstrap/12_uiu.sh` и `.config/waybar/scripts/launch.sh` + `style-fallback.css` в dotfiles, шаг прогнан на этой машине (см. `docs/backlog/2026-11-17_theme-install-infrastructure.md`). Обёртка waybar вступит в силу при следующем старте sway.
 - Открытый вопрос к пользователю: «в nvim по максимуму используем разные начертания» — сделано по его скриншоту (тон + курсив), ответа, хочет ли больше начертаний, нет.
 - Решить по рамке overlay после пробы в настоящем nvim.

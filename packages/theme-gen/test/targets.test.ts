@@ -11,7 +11,7 @@ import { gtkName, waybar } from "../src/targets/waybar";
 import { COMPONENTS, zellij } from "../src/targets/zellij";
 import { base16, SLOTS } from "../src/targets/base16";
 import { delta } from "../src/targets/delta";
-import { vhs } from "../src/targets/vhs";
+import { FONT_FAMILY, vhs } from "../src/targets/vhs";
 
 const t = await loadTheme();
 
@@ -188,5 +188,22 @@ describe("vhs", () => {
     expect(theme.background).toBe(t.role("surface-base").hex);
     const ansi = Object.keys(theme).filter((k) => !["name", "background", "foreground", "cursor", "selection"].includes(k));
     expect(ansi.length).toBe(16);
+  });
+
+  test("font family is the one fontconfig knows", () => {
+    expect(out).toContain(`Set FontFamily '"${FONT_FAMILY}"'`);
+  });
+
+  // vhs validate разбирает сценарий, не запуская запись
+  test.skipIf(!Bun.which("vhs"))("vhs validate accepts a tape that sources it", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "uiu-vhs-"));
+    try {
+      await Bun.write(join(dir, "uiu.tape"), out);
+      await Bun.write(join(dir, "demo.tape"), `Output demo.gif\nSource "${join(dir, "uiu.tape")}"\nType "ls"\n`);
+      const p = Bun.spawnSync(["vhs", "validate", join(dir, "demo.tape")], { cwd: dir });
+      expect({ code: p.exitCode, out: p.stdout.toString() + p.stderr.toString() }).toEqual({ code: 0, out: "" });
+    } finally {
+      await rm(dir, { recursive: true });
+    }
   });
 });
