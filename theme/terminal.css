@@ -16,12 +16,16 @@
   outline: 1px solid var(--border-subtle);
 }
 
-.screen * {
-  font: inherit;
+.screen * { font: inherit; }
+
+/* строка терминала: пробелы значимы. Контейнеры — normal, иначе переносы
+   из разметки превращаются в пустые строки. */
+.row, .ln, .float__row, .float__title, .pane__title, .nv-cmd, .nv-tree > div,
+.waybar > *, .zj-tabs > *, .zj-status > *, .nv-status > * {
   white-space: pre;
 }
 
-.row { display: flex; }
+.split { display: flex; }
 .fill { flex: 1; }
 
 /* --- начертания --- */
@@ -68,9 +72,9 @@
 .nv-tree__cur { background: var(--surface-sunken-hover); color: var(--text-strong); }
 
 .nv-ed { flex: 1; background: var(--surface-base); }
-.ln { display: flex; }
-.ln__sign { width: 2ch; flex: none; }
-.ln__nr { width: 4ch; flex: none; text-align: right; padding-right: 1ch; color: var(--text-faint); }
+.ln { display: block; }
+.ln__sign { display: inline-block; width: 2ch; }
+.ln__nr { display: inline-block; width: 4ch; text-align: right; padding-right: 1ch; color: var(--text-faint); }
 .ln_cursor { background: var(--surface-base-hover); }
 .ln_cursor .ln__nr { color: var(--text-strong); font-weight: 700; }
 .ln_nontext { color: var(--marker-invisible); }
