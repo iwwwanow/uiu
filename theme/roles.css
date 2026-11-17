@@ -1,0 +1,97 @@
+/* =====================================================
+   uiu / theme / roles.css — семантические роли (черновик, светлая тема)
+
+   Программы (nvim, zellij, waybar, ghostty) ссылаются только на роли,
+   роли — только на ступени palette.css. Hex здесь не бывает.
+
+   Уровни поверхностей (теней в терминале нет: уровень = фон и/или рамка):
+     -1 sunken   неактивное, сайдбары         NormalNC, дерево файлов
+      0 base     рабочая область              Normal, bg терминала
+      1 chrome   статусбары, табы             StatusLine, TabLine, waybar
+      2 overlay  плавающие окна               NormalFloat, Pmenu, Telescope
+      3 modal    поверх всего                 confirm, cmdline-попап
+   Ниже базы — фоном, выше — рамкой плюс небольшой сдвиг фона.
+   ===================================================== */
+
+:root {
+  /* --- поверхности --- */
+  --surface-sunken: var(--GRAY-96);
+  --surface-base: var(--GRAY-100);
+  --surface-chrome: var(--GRAY-94);
+  --surface-overlay: var(--GRAY-98);
+  --surface-modal: var(--GRAY-100);
+
+  /* hover / cursorline: +1 ступень относительно своей поверхности */
+  --surface-sunken-hover: var(--GRAY-94);
+  --surface-base-hover: var(--GRAY-96);
+  --surface-chrome-hover: var(--GRAY-91);
+  --surface-overlay-hover: var(--GRAY-94);
+
+  /* --- рамки: как в owo, неактивная LIGHT, активная DARK --- */
+  --border-subtle: var(--GRAY-91);
+  --border-strong: var(--GRAY-44);
+  --border-modal: var(--GRAY-28);
+
+  /* --- текст --- */
+  --text: var(--GRAY-28);
+  --text-strong: var(--GRAY-0);
+  --text-muted: var(--GRAY-44);
+  --text-faint: var(--GRAY-58);       /* номера строк, подсказки */
+  --text-disabled: var(--GRAY-72);
+  --text-on-accent: var(--GRAY-100);
+
+  /* --- синтаксис: серый, различие — светлотой и начертанием --- */
+  --syntax-keyword: var(--GRAY-0);    /* + bold */
+  --syntax-function: var(--GRAY-0);
+  --syntax-variable: var(--GRAY-28);
+  --syntax-string: var(--GRAY-44);
+  --syntax-constant: var(--GRAY-44);
+  --syntax-punctuation: var(--GRAY-58);
+  --syntax-comment: var(--GRAY-58);   /* + italic */
+
+  /* --- выделение и поиск --- */
+  --accent-selection: var(--BLUE-95);       /* Visual */
+  --accent-menu-selection: var(--GRAY-91);  /* выбранная строка в Pmenu / Telescope */
+  --accent-search: var(--GRAY-85);          /* Search */
+  --accent-search-current: var(--BLUE);     /* CurSearch, IncSearch; текст --text-on-accent */
+  --accent-match: var(--BLUE-50);           /* совпавшие символы в fuzzy-поиске */
+  --accent-interactive: var(--BLUE);        /* ссылки, активный таб, курсор */
+
+  /* --- состояния: знак/текст — тёмная ступень, подложка строки — светлая --- */
+  --state-added: var(--GREEN-50);
+  --state-added-bg: var(--GREEN-95);
+  --state-changed: var(--BLUE-50);
+  --state-changed-bg: var(--BLUE-95);
+  --state-removed: var(--RED-50);
+  --state-removed-bg: var(--RED-95);
+  --state-error: var(--RED-50);
+  --state-error-bg: var(--RED-95);
+  --state-warning: var(--ORANGE-50);
+  --state-warning-bg: var(--ORANGE-95);
+  --state-info: var(--BLUE-50);
+  --state-info-bg: var(--BLUE-95);
+  --state-hint: var(--GRAY-72);
+
+  /* --- невидимые символы: MAGENTA и больше нигде --- */
+  --marker-invisible: var(--MAGENTA);
+
+  /* --- ANSI 16 (ghostty palette): normal — тёмная ступень, bright — база owo.
+     yellow → ORANGE, cyan → BLUE, blue → BLUE-DARK. На светлом фоне
+     black/white — серые: black читается как текст, white — как фон. --- */
+  --ansi-black: var(--GRAY-28);
+  --ansi-red: var(--RED-50);
+  --ansi-green: var(--GREEN-50);
+  --ansi-yellow: var(--ORANGE-50);
+  --ansi-blue: var(--BLUE-DARK);
+  --ansi-magenta: var(--MAGENTA-50);
+  --ansi-cyan: var(--BLUE-50);
+  --ansi-white: var(--GRAY-85);
+  --ansi-bright-black: var(--GRAY-58);
+  --ansi-bright-red: var(--RED);
+  --ansi-bright-green: var(--GREEN);
+  --ansi-bright-yellow: var(--ORANGE);
+  --ansi-bright-blue: var(--BLUE-DARK);
+  --ansi-bright-magenta: var(--MAGENTA);
+  --ansi-bright-cyan: var(--BLUE);
+  --ansi-bright-white: var(--GRAY-100);
+}
