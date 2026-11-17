@@ -7,7 +7,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { loadTheme, REPO_ROOT } from "../src/theme";
 import { TARGETS } from "../src/targets";
 import { ghostty } from "../src/targets/ghostty";
-import { waybar } from "../src/targets/waybar";
+import { gtkName, waybar } from "../src/targets/waybar";
 
 const t = await loadTheme();
 
@@ -43,6 +43,24 @@ describe("waybar", () => {
   const out = waybar(t);
 
   test("snapshot", () => expect(out).toMatchSnapshot());
+
+  // GTK (python3-gobject) сам разбирает файл; без него на машине тест пропускается
+  const hasGtk =
+    Bun.spawnSync(["python3", "-c", "import gi; gi.require_version('Gtk','3.0')"]).exitCode === 0;
+  test.skipIf(!hasGtk)("GTK 3 parses it and every color is usable", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "uiu-waybar-"));
+    try {
+      await Bun.write(join(dir, "colors.css"), out);
+      const uses = [...t.roles.keys()]
+        .map((n) => `.r-${n.slice(2)} { color: @${gtkName(n)}; }`)
+        .join("\n");
+      await Bun.write(join(dir, "style.css"), `@import url("colors.css");\n${uses}\n`);
+      const p = Bun.spawnSync(["python3", join(import.meta.dir, "gtk-validate.py"), join(dir, "style.css")]);
+      expect({ code: p.exitCode, out: p.stdout.toString() }).toEqual({ code: 0, out: "" });
+    } finally {
+      await rm(dir, { recursive: true });
+    }
+  });
 
   test("one @define-color per role, valid GTK syntax", () => {
     const defs = out.split("\n").filter((l) => l.startsWith("@define-color"));
