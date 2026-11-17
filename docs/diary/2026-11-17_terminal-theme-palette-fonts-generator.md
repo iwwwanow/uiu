@@ -39,6 +39,15 @@
   - ghostty: `theme="Adwaita"` → `config-file = ?~/.local/share/uiu/ghostty/uiu.conf` (`+show-config` показывает цвета uiu);
   - waybar: шрифт → SS14, `style.css` переписан на `@uiu_*` с `@import`, бар светлый, после SIGUSR2 проверен скриншотом.
 
+## nvim (вторая часть сессии)
+
+- Перечень групп сначала собрали целиком: разбор пяти разделов справки (`highlight-groups`, `group-name`, treesitter, LSP, diagnostic) и снимок 290 групп семи плагинов. Потом урезали: разбор справки хрупкий и не нужен, хватает снимка `nvim --clean` (`packages/theme-gen/data/nvim-builtin.json`, 384 группы со ссылками по умолчанию, `pnpm --filter theme-gen nvim:snapshot`). Почти все группы плагинов — ссылки на базовые; группы со своими hex или ссылкой на `NonText` записаны прямо в `test/nvim.test.ts` (`PLUGIN_GROUPS`). Снимок плагинов — изредка, руками: `scripts/nvim-hl-snapshot.lua` с `g:uiu_user`.
+- Выход генератора `src/targets/nvim.ts`: `colors/uiu.lua`, `lua/uiu/init.lua` (роли → hex, ~120 групп, терминальные цвета, `load()`), `lua/lualine/themes/uiu.lua` (lualine с `theme = "auto"` берёт её по `g:colors_name`; все режимы одним акцентом `accent-interactive`). Задаём базовые группы и всё, что по умолчанию со своими цветами; остальное держится на встроенных ссылках.
+- Решения по ходу: `NormalNC` — sunken; Telescope — уровень overlay (`NormalFloat`, `FloatBorder`, выбор как `PmenuSel`); staged-знаки gitsigns — серым (`state-hint`): gitsigns смешивает их из обычных знаков в цвета вне палитры, а светлых ступеней акцентов с нормальным контрастом нет; `LspInlayHint`, `LspCodeLens`, blame, счётчик Telescope, `ComplHint` по умолчанию ссылались на `NonText` — перекрыты, MAGENTA остался только у конца строки; `DiagnosticUnderline*` — undercurl; `MatchParen` — подчёркивание и `text-strong`; `DevIconDefault` — `accent-interactive`.
+- todo-comments пересчитывает `TodoFg/Bg/Sign*` из `Diagnostic*`/`Identifier` по `ColorScheme`, тема их не задаёт. cmp ставит `CmpItem*Default` без `default = true` — перекрываем группы над ними.
+- Тесты (70, все проходят): после ссылок каждая группа (встроенные + `PLUGIN_GROUPS`) заканчивается цветом темы; `marker-invisible` только у `NonText`; ссылки темы ведут на известные группы; нет жирного; снапшот; `colorscheme uiu` в `nvim --clean --headless` без ошибок и все hex — из ролей; `data/nvim-builtin.json` совпадает с установленным nvim (упадёт при обновлении nvim — перезапустить снимок и смотреть diff).
+- Живая проверка с плагинами пользователя (без monochrome, тема через `dir`): чужой цвет один — `DevIconDefault = #0000ff` из override в dotfiles; Todo* и lualine_* в палитре.
+
 ## Подводные камни
 
 - ghostty раскрывает `~/` в `config-file`, `$HOME` — нет. Проверено на 1.4.
@@ -50,11 +59,13 @@
 - Нельзя править bash-скрипт, пока он выполняется: bash читает его по ходу.
 - `nerdfonts/patcher` в Docker Hub версионируется своими номерами (4.x), не как Nerd Fonts, поэтому берём официальный `FontPatcher.zip` и fontforge из debian.
 - `pipx run` (скачивание fonttools) не прошёл проверку разрешений. Пользователь поставил `pipx install 'fonttools[woff]'`, интерпретатор — `~/.local/pipx/venvs/fonttools/bin/python`.
+- Снимок групп плагинов через обычный `init.lua` + `colorscheme default` загрязнён: группы темы остаются пустыми (`{}`), и плагины с `default = true` их уже не заполняют. Скрипт снимка ставится вместо `init.lua` (`-u`) и собирает спеку lazy без темы. `lazy.setup` из `-c luafile` после `-u NONE` не работает (`Config.headless` nil) — только как init.
+- Смена `'background'` при заданном `g:colors_name` перезагружает тему — в `load()` имя сбрасывается до смены фона.
 - Сборка шрифта идёт ~9.5 минут: FontForge патчит в один поток, начертания по очереди. Можно распараллелить.
 
 ## Остаток
 
-- **nvim.** Собрать полный перечень групп подсветки: ядро из `:h highlight-groups`, `group-name`, `treesitter-highlight-groups`, `lsp-semantic-highlight`, `diagnostic-highlights`, плюс снимок `nvim_get_hl(0, {})` с загруженными плагинами; образец — mini.hues. Затем выход генератора `colors/uiu.lua` + `lua/uiu/` с тестом полноты, подключение в lazy (`dev` с `fallback`) и удаление `monochrome.nvim` и override `NonText`.
+- **nvim.** Тема готова, но не подключена: в dotfiles заменить `monochrome.nvim` на `{ dir = "~/Projects/iwwwanow_uiu", name = "uiu", lazy = false, priority = 1000, config = function() vim.cmd.colorscheme("uiu") end }` (или `"iwwwanow/uiu"` после влития), убрать override `NonText` и, по желанию, `DevIconDefault = #0000FF`. Посмотреть вживую: рамку overlay, `NormalNC` sunken, серые staged-знаки.
 - zellij (тема в `~/.local/share/uiu/zellij/`), base16-выход для lazygit, fzf, delta, bat, btop, `theme.tape` для vhs.
 - Шаг bootstrap `NN_uiu.sh` в dotfiles. Защита waybar от отсутствующего `colors.css`.
 - Открытый вопрос к пользователю: «в nvim по максимуму используем разные начертания» — сделано по его скриншоту (тон + курсив), ответа, хочет ли больше начертаний, нет.
